@@ -13,3 +13,17 @@ exports.getAllPecas = (req, res) => {
   });
 };
 
+exports.getAllPecasCategoria = (req, res) => {
+  const categoria = req.query.categoria;
+
+  Peca.getAllPecasCategoria(categoria, (err, data) => {
+    if (err)
+      res.status(500).send({
+        message:
+          err.message || "Ocorreu um erro na obtenção da(s) Pecas(s)..."
+      });
+    else res.send(data);
+  });
+};
+
+

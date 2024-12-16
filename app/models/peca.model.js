@@ -32,4 +32,27 @@ Peca.getAllPecas = (nome, result) => {
   });
 };
 
+Peca.getAllPecasCategoria = (categoria, result) => {
+  let query = "SELECT * FROM peca";
+
+  if (categoria) {
+    query += ` WHERE id_categoria IN (SELECT id FROM categoria WHERE descricao LIKE ?)`;
+  }
+
+  // Usando prepared statement para evitar injeção de SQL
+  sql.query(query, [`%${categoria}%`], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("pecas: ", res);
+    result(null, res);
+  });
+};
+
+
+
+
 module.exports = Peca;

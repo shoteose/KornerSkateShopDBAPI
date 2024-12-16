@@ -5,6 +5,7 @@ module.exports = app => {
 
     // Consultar todos os filmes
     router.get("/", peca.getAllPecas);
+    router.get("/unity/",peca.getAllPecasCategoria);
 
     app.use('/api/pecas', router);
 };
