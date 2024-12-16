@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 16-Dez-2024 às 16:05
+-- Tempo de geração: 16-Dez-2024 às 16:21
 -- Versão do servidor: 10.4.32-MariaDB
 -- versão do PHP: 8.2.12
 
@@ -67,6 +67,17 @@ INSERT INTO `cor` (`id`, `descricao`) VALUES
 (3, 'Preto'),
 (4, 'Branco'),
 (5, 'Verde');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `fotos`
+--
+
+CREATE TABLE `fotos` (
+  `id` int(11) NOT NULL,
+  `nome_arquivo` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -138,6 +149,8 @@ CREATE TABLE `peca` (
   `id` int(11) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `descricao` varchar(150) DEFAULT NULL,
+  `imagemTextura` blob NOT NULL,
+  `tridimensional` tinyint(1) NOT NULL,
   `id_cor` int(11) DEFAULT NULL,
   `id_marca` int(11) DEFAULT NULL,
   `id_categoria` int(11) DEFAULT NULL,
@@ -150,10 +163,22 @@ CREATE TABLE `peca` (
 -- Extraindo dados da tabela `peca`
 --
 
-INSERT INTO `peca` (`id`, `nome`, `descricao`, `id_cor`, `id_marca`, `id_categoria`, `id_genero`, `taxa_iva`, `taxa_desconto`) VALUES
-(1, 'Roda Classic', 'Roda de skate de alta performance', 1, 3, 7, 3, 23, 10),
-(2, 'T-shirt Logo Antihero', 'T-shirt com o logo da marca Antihero', 2, 1, 1, 1, 23, 5),
-(3, 'Hoodie Creature', 'Hoodie confortável da marca Creature', 3, 2, 3, 3, 23, 15);
+INSERT INTO `peca` (`id`, `nome`, `descricao`, `imagemTextura`, `tridimensional`, `id_cor`, `id_marca`, `id_categoria`, `id_genero`, `taxa_iva`, `taxa_desconto`) VALUES
+(1, 'Roda Classic', 'Roda de skate de alta performance', '', 0, 1, 3, 7, 3, 23, 10),
+(2, 'T-shirt Logo Antihero', 'T-shirt com o logo da marca Antihero', '', 0, 2, 1, 1, 1, 23, 5),
+(3, 'Hoodie Creature', 'Hoodie confortável da marca Creature', '', 0, 3, 2, 3, 3, 23, 15);
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `pecas_fotos`
+--
+
+CREATE TABLE `pecas_fotos` (
+  `id` int(11) NOT NULL,
+  `id_peca` int(11) NOT NULL,
+  `id_foto` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -257,6 +282,12 @@ ALTER TABLE `cor`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Índices para tabela `fotos`
+--
+ALTER TABLE `fotos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Índices para tabela `genero`
 --
 ALTER TABLE `genero`
@@ -283,6 +314,14 @@ ALTER TABLE `peca`
   ADD KEY `id_marca` (`id_marca`),
   ADD KEY `id_categoria` (`id_categoria`),
   ADD KEY `id_genero` (`id_genero`);
+
+--
+-- Índices para tabela `pecas_fotos`
+--
+ALTER TABLE `pecas_fotos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_peca` (`id_peca`),
+  ADD KEY `id_foto` (`id_foto`);
 
 --
 -- Índices para tabela `stock`
@@ -328,6 +367,12 @@ ALTER TABLE `cor`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
+-- AUTO_INCREMENT de tabela `fotos`
+--
+ALTER TABLE `fotos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de tabela `genero`
 --
 ALTER TABLE `genero`
@@ -350,6 +395,12 @@ ALTER TABLE `media`
 --
 ALTER TABLE `peca`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de tabela `pecas_fotos`
+--
+ALTER TABLE `pecas_fotos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `stock`
@@ -387,6 +438,13 @@ ALTER TABLE `peca`
   ADD CONSTRAINT `peca_ibfk_2` FOREIGN KEY (`id_marca`) REFERENCES `marca` (`id`),
   ADD CONSTRAINT `peca_ibfk_3` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`),
   ADD CONSTRAINT `peca_ibfk_4` FOREIGN KEY (`id_genero`) REFERENCES `genero` (`id`);
+
+--
+-- Limitadores para a tabela `pecas_fotos`
+--
+ALTER TABLE `pecas_fotos`
+  ADD CONSTRAINT `pecas_fotos_ibfk_1` FOREIGN KEY (`id_peca`) REFERENCES `peca` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `pecas_fotos_ibfk_2` FOREIGN KEY (`id_foto`) REFERENCES `fotos` (`id`) ON DELETE CASCADE;
 
 --
 -- Limitadores para a tabela `stock`
