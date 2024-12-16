@@ -11,6 +11,7 @@ const Peca = function (peca) {
   this.id_genero = peca.id_genero;
   this.taxa_iva = peca.taxa_iva;
   this.taxa_desconto = peca.taxa_desconto;
+  this.imagemTextura = peca.imagemTextura;
 };
 
 Peca.getAllPecas = (nome, result) => {
@@ -39,7 +40,6 @@ Peca.getAllPecasCategoria = (categoria, result) => {
     query += ` WHERE id_categoria IN (SELECT id FROM categoria WHERE descricao LIKE ?)`;
   }
 
-  // Usando prepared statement para evitar injeção de SQL
   sql.query(query, [`%${categoria}%`], (err, res) => {
     if (err) {
       console.log("error: ", err);
@@ -47,10 +47,10 @@ Peca.getAllPecasCategoria = (categoria, result) => {
       return;
     }
 
-    console.log("pecas: ", res);
     result(null, res);
   });
 };
+
 
 
 
