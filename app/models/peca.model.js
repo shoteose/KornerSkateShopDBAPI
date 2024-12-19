@@ -34,11 +34,30 @@ Peca.getAllPecas = (nome, result) => {
 };
 
 Peca.getAllPecasCategoria = (categoria, result) => {
-  let query = "SELECT * FROM peca";
-
-  if (categoria) {
-    query += ` WHERE id_categoria IN (SELECT id FROM categoria WHERE descricao LIKE ?)`;
-  }
+  let query = `SELECT 
+    p.id AS id,
+    p.nome AS nome,
+    p.descricao AS descricao,
+    p.tridimensional,
+    c.descricao AS cor,
+    m.nome AS marca,
+    cat.descricao AS categoria,
+    g.descricao AS genero,
+    p.taxa_iva,
+    p.taxa_desconto
+    FROM 
+    peca p
+    LEFT JOIN cor c ON p.id_cor = c.id
+    LEFT JOIN marca m ON p.id_marca = m.id
+    LEFT JOIN categoria cat ON p.id_categoria = cat.id
+    LEFT JOIN genero g ON p.id_genero = g.id
+    WHERE 
+    p.id_categoria IN (
+        SELECT id 
+        FROM categoria 
+        WHERE descricao LIKE ?
+    );
+`;
 
   sql.query(query, [`%${categoria}%`], (err, res) => {
     if (err) {
