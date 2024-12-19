@@ -1,465 +1,153 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1
--- Tempo de geração: 16-Dez-2024 às 16:21
--- Versão do servidor: 10.4.32-MariaDB
--- versão do PHP: 8.2.12
+-- Estrutura das tabelas e inserção de dados iniciais
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Banco de dados: `kornerdb`
---
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `categoria`
---
-
+-- Tabela `categoria`
 CREATE TABLE `categoria` (
-  `id` int(11) NOT NULL,
-  `descricao` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `descricao` VARCHAR(100) NOT NULL
+) ENGINE=InnoDB;
 
---
--- Extraindo dados da tabela `categoria`
---
+INSERT INTO `categoria` (`descricao`) VALUES
+('Tshirt'),
+('Casaco'),
+('Hoodie'),
+('Calças'),
+('Trucks'),
+('Tábuas'),
+('Rodas'),
+('Rolamentos');
 
-INSERT INTO `categoria` (`id`, `descricao`) VALUES
-(1, 'Tshirt'),
-(2, 'Casaco'),
-(3, 'Hoodie'),
-(4, 'Calças'),
-(5, 'Trucks'),
-(6, 'Tábuas'),
-(7, 'Rodas'),
-(8, 'Rolamentos');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `cor`
---
-
+-- Tabela `cor`
 CREATE TABLE `cor` (
-  `id` int(11) NOT NULL,
-  `descricao` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `descricao` VARCHAR(50) NOT NULL
+) ENGINE=InnoDB;
 
---
--- Extraindo dados da tabela `cor`
---
+INSERT INTO `cor` (`descricao`) VALUES
+('Vermelho'),
+('Azul'),
+('Preto'),
+('Branco'),
+('Verde');
 
-INSERT INTO `cor` (`id`, `descricao`) VALUES
-(1, 'Vermelho'),
-(2, 'Azul'),
-(3, 'Preto'),
-(4, 'Branco'),
-(5, 'Verde');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `fotos`
---
-
+-- Tabela `fotos`
 CREATE TABLE `fotos` (
-  `id` int(11) NOT NULL,
-  `nome_arquivo` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `nome_arquivo` VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;
 
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `genero`
---
-
+-- Tabela `genero`
 CREATE TABLE `genero` (
-  `id` int(11) NOT NULL,
-  `descricao` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `descricao` VARCHAR(50) NOT NULL
+) ENGINE=InnoDB;
 
---
--- Extraindo dados da tabela `genero`
---
+INSERT INTO `genero` (`descricao`) VALUES
+('Masculino'),
+('Feminino'),
+('Unisexo');
 
-INSERT INTO `genero` (`id`, `descricao`) VALUES
-(1, 'Masculino'),
-(2, 'Feminino'),
-(3, 'Unisexo');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `marca`
---
-
+-- Tabela `marca`
 CREATE TABLE `marca` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `nome` VARCHAR(100) NOT NULL
+) ENGINE=InnoDB;
 
---
--- Extraindo dados da tabela `marca`
---
+INSERT INTO `marca` (`nome`) VALUES
+('Antihero'),
+('Creature'),
+('Santa Cruz');
 
-INSERT INTO `marca` (`id`, `nome`) VALUES
-(1, 'Antihero'),
-(2, 'Creature'),
-(3, 'Santa Cruz');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `media`
---
-
+-- Tabela `media`
 CREATE TABLE `media` (
-  `id` int(11) NOT NULL,
-  `titulo` varchar(100) NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `url` varchar(255) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `titulo` VARCHAR(100) NOT NULL,
+  `descricao` TEXT,
+  `url` VARCHAR(255)
+) ENGINE=InnoDB;
 
---
--- Extraindo dados da tabela `media`
---
+INSERT INTO `media` (`titulo`, `descricao`, `url`) VALUES
+('Evento End of Summer', 'Evento da korner no inicio de setembro, para finalizar o verão', 'www.youtube.com/video-exemplo');
 
-INSERT INTO `media` (`id`, `titulo`, `descricao`, `url`) VALUES
-(1, 'Evento End of Summer', 'Evento da korner no inicio de setembro, para finalizar o verao', 'www.youtube.com/video-exemplo');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `peca`
---
-
+-- Tabela `peca`
 CREATE TABLE `peca` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `descricao` varchar(150) DEFAULT NULL,
-  `imagemTextura` blob NOT NULL,
-  `tridimensional` tinyint(1) NOT NULL,
-  `id_cor` int(11) DEFAULT NULL,
-  `id_marca` int(11) DEFAULT NULL,
-  `id_categoria` int(11) DEFAULT NULL,
-  `id_genero` int(11) DEFAULT NULL,
-  `taxa_iva` float NOT NULL DEFAULT 23,
-  `taxa_desconto` float NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `nome` VARCHAR(100) NOT NULL,
+  `descricao` VARCHAR(150),
+  `imagemTextura` BLOB NOT NULL,
+  `tridimensional` TINYINT(1) NOT NULL,
+  `id_cor` INT,
+  `id_marca` INT,
+  `id_categoria` INT,
+  `id_genero` INT,
+  `taxa_iva` FLOAT NOT NULL DEFAULT 23,
+  `taxa_desconto` FLOAT NOT NULL DEFAULT 0,
+  FOREIGN KEY (`id_cor`) REFERENCES `cor` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_marca`) REFERENCES `marca` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_genero`) REFERENCES `genero` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB;
 
---
--- Extraindo dados da tabela `peca`
---
+INSERT INTO `peca` (`nome`, `descricao`, `imagemTextura`, `tridimensional`, `id_cor`, `id_marca`, `id_categoria`, `id_genero`, `taxa_iva`, `taxa_desconto`) VALUES
+('Roda Classic', 'Roda de skate de alta performance', '', 0, 1, 3, 7, 3, 23, 10),
+('T-shirt Logo Antihero', 'T-shirt com o logo da marca Antihero', '', 0, 2, 1, 1, 1, 23, 5),
+('Hoodie Creature', 'Hoodie confortável da marca Creature', '', 0, 3, 2, 3, 3, 23, 15);
 
-INSERT INTO `peca` (`id`, `nome`, `descricao`, `imagemTextura`, `tridimensional`, `id_cor`, `id_marca`, `id_categoria`, `id_genero`, `taxa_iva`, `taxa_desconto`) VALUES
-(1, 'Roda Classic', 'Roda de skate de alta performance', '', 0, 1, 3, 7, 3, 23, 10),
-(2, 'T-shirt Logo Antihero', 'T-shirt com o logo da marca Antihero', '', 0, 2, 1, 1, 1, 23, 5),
-(3, 'Hoodie Creature', 'Hoodie confortável da marca Creature', '', 0, 3, 2, 3, 3, 23, 15);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `pecas_fotos`
---
-
+-- Tabela `pecas_fotos`
 CREATE TABLE `pecas_fotos` (
-  `id` int(11) NOT NULL,
-  `id_peca` int(11) NOT NULL,
-  `id_foto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `id_peca` INT NOT NULL,
+  `id_foto` INT NOT NULL,
+  FOREIGN KEY (`id_peca`) REFERENCES `peca` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_foto`) REFERENCES `fotos` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB;
 
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `stock`
---
-
-CREATE TABLE `stock` (
-  `id` int(11) NOT NULL,
-  `id_peca` int(11) NOT NULL,
-  `id_tamanho` int(11) NOT NULL,
-  `quantidade` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Extraindo dados da tabela `stock`
---
-
-INSERT INTO `stock` (`id`, `id_peca`, `id_tamanho`, `quantidade`) VALUES
-(1, 1, 1, 50),
-(2, 2, 2, 30),
-(3, 3, 3, 20);
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `tamanho`
---
-
+-- Tabela `tamanho`
 CREATE TABLE `tamanho` (
-  `id` int(11) NOT NULL,
-  `descricao` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `descricao` VARCHAR(50) NOT NULL
+) ENGINE=InnoDB;
 
---
--- Extraindo dados da tabela `tamanho`
---
+INSERT INTO `tamanho` (`descricao`) VALUES
+('S'),
+('M'),
+('L'),
+('XL'),
+('XXL');
 
-INSERT INTO `tamanho` (`id`, `descricao`) VALUES
-(1, 'S'),
-(2, 'M'),
-(3, 'L'),
-(4, 'XL'),
-(5, 'XXL');
+-- Tabela `stock`
+CREATE TABLE `stock` (
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `id_peca` INT NOT NULL,
+  `id_tamanho` INT NOT NULL,
+  `quantidade` INT NOT NULL,
+  FOREIGN KEY (`id_peca`) REFERENCES `peca` (`id`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_tamanho`) REFERENCES `tamanho` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB;
 
--- --------------------------------------------------------
+INSERT INTO `stock` (`id_peca`, `id_tamanho`, `quantidade`) VALUES
+(1, 1, 50),
+(2, 2, 30),
+(3, 3, 20);
 
---
--- Estrutura da tabela `tipo_user`
---
 
+-- Tabela `tipo_user`
 CREATE TABLE `tipo_user` (
-  `id` int(11) NOT NULL,
-  `descricao` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `descricao` VARCHAR(50) NOT NULL
+) ENGINE=InnoDB;
 
---
--- Extraindo dados da tabela `tipo_user`
---
+INSERT INTO `tipo_user` (`descricao`) VALUES
+('Administrador'),
+('Utilizador');
 
-INSERT INTO `tipo_user` (`id`, `descricao`) VALUES
-(1, 'Administrador'),
-(2, 'Utilizador');
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `user`
---
-
+-- Tabela `user`
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `apelido` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `pass` varchar(255) NOT NULL,
-  `id_tipoUser` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
+  `email` VARCHAR(100) NOT NULL,
+  `pass` VARCHAR(255) NOT NULL,
+  `id_tipoUser` INT NOT NULL,
+  FOREIGN KEY (`id_tipoUser`) REFERENCES `tipo_user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB;
 
---
--- Extraindo dados da tabela `user`
---
-
-INSERT INTO `user` (`id`, `nome`, `apelido`, `email`, `pass`, `id_tipoUser`) VALUES
-(1, 'admin', 'admin', 'admin@admin.admin', 'adimin', 1);
-
---
--- Índices para tabelas despejadas
---
-
---
--- Índices para tabela `categoria`
---
-ALTER TABLE `categoria`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `cor`
---
-ALTER TABLE `cor`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `fotos`
---
-ALTER TABLE `fotos`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `genero`
---
-ALTER TABLE `genero`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `marca`
---
-ALTER TABLE `marca`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `media`
---
-ALTER TABLE `media`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `peca`
---
-ALTER TABLE `peca`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_cor` (`id_cor`),
-  ADD KEY `id_marca` (`id_marca`),
-  ADD KEY `id_categoria` (`id_categoria`),
-  ADD KEY `id_genero` (`id_genero`);
-
---
--- Índices para tabela `pecas_fotos`
---
-ALTER TABLE `pecas_fotos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_peca` (`id_peca`),
-  ADD KEY `id_foto` (`id_foto`);
-
---
--- Índices para tabela `stock`
---
-ALTER TABLE `stock`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_peca` (`id_peca`),
-  ADD KEY `id_tamanho` (`id_tamanho`);
-
---
--- Índices para tabela `tamanho`
---
-ALTER TABLE `tamanho`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `tipo_user`
---
-ALTER TABLE `tipo_user`
-  ADD PRIMARY KEY (`id`);
-
---
--- Índices para tabela `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `id_tipoUser` (`id_tipoUser`);
-
---
--- AUTO_INCREMENT de tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `categoria`
---
-ALTER TABLE `categoria`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- AUTO_INCREMENT de tabela `cor`
---
-ALTER TABLE `cor`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `fotos`
---
-ALTER TABLE `fotos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `genero`
---
-ALTER TABLE `genero`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de tabela `marca`
---
-ALTER TABLE `marca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de tabela `media`
---
-ALTER TABLE `media`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de tabela `peca`
---
-ALTER TABLE `peca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de tabela `pecas_fotos`
---
-ALTER TABLE `pecas_fotos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `stock`
---
-ALTER TABLE `stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de tabela `tamanho`
---
-ALTER TABLE `tamanho`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT de tabela `tipo_user`
---
-ALTER TABLE `tipo_user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-
---
--- AUTO_INCREMENT de tabela `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Restrições para despejos de tabelas
---
-
---
--- Limitadores para a tabela `peca`
---
-ALTER TABLE `peca`
-  ADD CONSTRAINT `peca_ibfk_1` FOREIGN KEY (`id_cor`) REFERENCES `cor` (`id`),
-  ADD CONSTRAINT `peca_ibfk_2` FOREIGN KEY (`id_marca`) REFERENCES `marca` (`id`),
-  ADD CONSTRAINT `peca_ibfk_3` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id`),
-  ADD CONSTRAINT `peca_ibfk_4` FOREIGN KEY (`id_genero`) REFERENCES `genero` (`id`);
-
---
--- Limitadores para a tabela `pecas_fotos`
---
-ALTER TABLE `pecas_fotos`
-  ADD CONSTRAINT `pecas_fotos_ibfk_1` FOREIGN KEY (`id_peca`) REFERENCES `peca` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `pecas_fotos_ibfk_2` FOREIGN KEY (`id_foto`) REFERENCES `fotos` (`id`) ON DELETE CASCADE;
-
---
--- Limitadores para a tabela `stock`
---
-ALTER TABLE `stock`
-  ADD CONSTRAINT `stock_ibfk_1` FOREIGN KEY (`id_peca`) REFERENCES `peca` (`id`),
-  ADD CONSTRAINT `stock_ibfk_2` FOREIGN KEY (`id_tamanho`) REFERENCES `tamanho` (`id`);
-
---
--- Limitadores para a tabela `user`
---
-ALTER TABLE `user`
-  ADD CONSTRAINT `user_ibfk_1` FOREIGN KEY (`id_tipoUser`) REFERENCES `tipo_user` (`id`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+INSERT INTO `user` (`email`, `pass`, `id_tipoUser`) VALUES
+('admin@admin.admin', 'adimin', 1);
