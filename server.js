@@ -25,7 +25,12 @@ app.get("/", (req, res) => {
 
 // importação das movie.routes com um argumento de inicialização
 require('./app/routes/peca.routes.js')(app);
-//require('./app/routes/genero.routes.js')(app);
+require('./app/routes/categoria.routes.js')(app);
+require('./app/routes/cor.routes.js')(app);
+require('./app/routes/genero.routes.js')(app);
+require('./app/routes/marca.routes.js')(app);
+require('./app/routes/tamanho.routes.js')(app);
+require('./app/routes/media.routes.js')(app);
 
 // ativação do servidor, onde serão recebidos os pedidos, na porta definida
 app.listen(PORT, () => {
