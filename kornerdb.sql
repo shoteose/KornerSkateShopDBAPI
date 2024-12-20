@@ -79,6 +79,7 @@ CREATE TABLE `peca` (
   `id_marca` INT,
   `id_categoria` INT,
   `id_genero` INT,
+  `preco` INT NOT NULL DEFAULT 0,
   `taxa_iva` FLOAT NOT NULL DEFAULT 23,
   `taxa_desconto` FLOAT NOT NULL DEFAULT 0,
   FOREIGN KEY (`id_cor`) REFERENCES `cor` (`id`) ON DELETE CASCADE,
@@ -88,9 +89,11 @@ CREATE TABLE `peca` (
 ) ENGINE=InnoDB;
 
 INSERT INTO `peca` (`nome`, `descricao`, `imagemTextura`, `tridimensional`, `id_cor`, `id_marca`, `id_categoria`, `id_genero`, `taxa_iva`, `taxa_desconto`) VALUES
-('Roda Classic', 'Roda de skate de alta performance', '', 0, 1, 3, 7, 3, 23, 10),
-('T-shirt Logo Antihero', 'T-shirt com o logo da marca Antihero', '', 0, 2, 1, 1, 1, 23, 5),
-('Hoodie Creature', 'Hoodie confortável da marca Creature', '', 0, 3, 2, 3, 3, 23, 15);
+('Roda Classic', 'Roda de skate de alta performance', '', 0, 1, 3, 7, 3, 44, 23, 10),
+('T-shirt Logo Antihero', 'T-shirt com o logo da marca Antihero', '', 0, 2, 1, 1, 1,35, 23, 5),
+('T-shirt 1', 'T-shirt com o logo 1', '', 0, 2, 1, 1, 1,35, 23, 5),
+('T-shirt 2', 'T-shirt com o logo 2', '', 0, 2, 1, 1, 1,35, 23, 5),
+('Hoodie Creature', 'Hoodie confortável da marca Creature', '', 0, 3, 2, 3, 3, 23,80 ,15);
 
 -- Tabela `pecas_fotos`
 CREATE TABLE `pecas_fotos` (
