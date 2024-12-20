@@ -9,6 +9,7 @@ const Peca = function (peca) {
   this.id_marca = peca.id_marca;
   this.id_categoria = peca.id_categoria;
   this.id_genero = peca.id_genero;
+  this.preco = peca.preco;
   this.taxa_iva = peca.taxa_iva;
   this.taxa_desconto = peca.taxa_desconto;
   this.imagemTextura = peca.imagemTextura;

@@ -13,10 +13,10 @@ exports.getAllPecas = (req, res) => {
   });
 };
 
-exports.getAllPecasCategoria = (req, res) => {
+exports.getAllPecasCategoriaUnity = (req, res) => {
   const categoria = req.query.categoria;
 
-  Peca.getAllPecasCategoria(categoria, (err, data) => {
+  Peca.getAllPecasCategoriaUnity(categoria, (err, data) => {
     if (err)
       res.status(500).send({
         message:
