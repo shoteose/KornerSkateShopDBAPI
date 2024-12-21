@@ -5,19 +5,6 @@ const Cor = function (cor) {
   this.descricao = cor.descricao;
 };
 
-Cor.insert = (newCor, result) => {
-  sql.query("INSERT INTO cor SET ?", newCor, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("Cor inserida: ", { id: res.insertId, ...newCor });
-    result(null, { id: res.insertId, ...newCor });
-  });
-};
-
 Cor.getAll = (result) => {
   let query;
   query = "SELECT * FROM cor";

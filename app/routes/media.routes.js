@@ -19,5 +19,5 @@ module.exports = app => {
     router.put("/:id", media.update);
 
 
-    app.use('/api/medias', router);
+    app.use('/api/media', router);
 };

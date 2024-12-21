@@ -84,6 +84,7 @@ exports.getAll = (req, res) => {
 };
 
 exports.getById = (req, res) => {
+  const id = req.params.id; 
   Media.getById((err, data) => {
     if (err)
       res.status(500).send({

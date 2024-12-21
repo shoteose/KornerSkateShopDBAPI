@@ -18,5 +18,5 @@ module.exports = app => {
     router.put("/:id", tamanho.update);
 
 
-    app.use('/api/tamanhos', router);
+    app.use('/api/tamanho', router);
 };

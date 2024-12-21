@@ -5,19 +5,6 @@ const Marca = function (marca) {
   this.nome = marca.nome;
 };
 
-Marca.insert = (newMarca, result) => {
-  sql.query("INSERT INTO marca SET ?", newMarca, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("Marca inserida: ", { id: res.insertId, ...newMarca });
-    result(null, { id: res.insertId, ...newMarca });
-  });
-};
-
 Marca.getAll = (result) => {
   let query;
   query = "SELECT * FROM marca";

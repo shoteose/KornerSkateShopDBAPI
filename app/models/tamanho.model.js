@@ -5,19 +5,6 @@ const Tamanho = function (tamanho) {
   this.descricao = tamanho.descricao;
 };
 
-Tamanho.insert = (newTamanho, result) => {
-  sql.query("INSERT INTO tamanho SET ?", newTamanho, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("Tamanho inserida: ", { id: res.insertId, ...newTamanho });
-    result(null, { id: res.insertId, ...newTamanho });
-  });
-};
-
 Tamanho.getAll = (result) => {
   let query;
   query = "SELECT * FROM tamanho";

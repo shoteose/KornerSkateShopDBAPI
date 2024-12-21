@@ -5,19 +5,6 @@ const Categoria = function (categoria) {
   this.descricao = categoria.descricao;
 };
 
-Categoria.insert = (newCategoria, result) => {
-  sql.query("INSERT INTO categoria SET ?", newCategoria, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("Categoria inserida: ", { id: res.insertId, ...newCategoria });
-    result(null, { id: res.insertId, ...newCategoria });
-  });
-};
-
 Categoria.getAll = (result) => {
   let query;
   query = "SELECT * FROM categoria";

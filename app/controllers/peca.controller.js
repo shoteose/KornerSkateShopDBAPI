@@ -28,12 +28,15 @@ exports.getAllPecasCategoriaUnity = (req, res) => {
 };
 
 exports.getById = (req, res) => {
-  Peca.getById((err, data) => {
-    if (err)
+  const id = req.params.id; 
+  Peca.getById(id, (err, data) => {
+    if (err) {
       res.status(500).send({
         message: err.message || "Ocorreu um erro na obtenção da Peca...",
       });
-    else res.send(data);
+    } else {
+      res.send(data);
+    }
   });
 };
 

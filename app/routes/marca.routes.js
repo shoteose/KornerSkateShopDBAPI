@@ -19,5 +19,5 @@ module.exports = app => {
     router.put("/:id", marca.update);
 
 
-    app.use('/api/marcas', router);
+    app.use('/api/marca', router);
 };

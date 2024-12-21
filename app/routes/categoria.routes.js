@@ -18,5 +18,5 @@ module.exports = app => {
     router.put("/:id", categoria.update);
 
 
-    app.use('/api/categorias', router);
+    app.use('/api/categoria', router);
 };
