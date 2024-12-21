@@ -34,6 +34,22 @@ Tamanho.getAll = (result) => {
   });
 };
 
+Tamanho.getById = (id, result) => {
+  let query;
+  query = "SELECT * FROM tamanho WHERE id = ?";
+
+  sql.query(query, id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("Tamanho: ", res);
+    result(null, res);
+  });
+};
+
 Tamanho.insert = (newTamanho, result) => {
     sql.query('INSERT INTO tamanho SET ?', newTamanho, (err, res) => {
       if (err) {

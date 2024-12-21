@@ -80,3 +80,13 @@ exports.getAll = (req, res) => {
     else res.send(data);
   });
 };
+
+exports.getById = (req, res) => {
+  Tamanho.getById((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro na obtenção do Tamanho...",
+      });
+    else res.send(data);
+  });
+};

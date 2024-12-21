@@ -6,6 +6,8 @@ module.exports = app => {
     // get todas as tamanhos
     router.get("/", tamanho.getAll);
 
+    router.get('/:id', tamanho.getById);
+
     // inserir uma tamanho
     router.post("/", tamanho.insert);
 

@@ -34,6 +34,22 @@ Genero.getAll = (result) => {
   });
 };
 
+Genero.getById = (id, result) => {
+  let query;
+  query = "SELECT * FROM genero WHERE id = ?";
+
+  sql.query(query, id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("Genero: ", res);
+    result(null, res);
+  });
+};
+
 Genero.insert = (newGenero, result) => {
     sql.query('INSERT INTO genero SET ?', newGenero, (err, res) => {
       if (err) {

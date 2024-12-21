@@ -13,6 +13,7 @@ exports.getAllPecas = (req, res) => {
   });
 };
 
+
 exports.getAllPecasCategoriaUnity = (req, res) => {
   const categoria = req.query.categoria;
 
@@ -26,4 +27,13 @@ exports.getAllPecasCategoriaUnity = (req, res) => {
   });
 };
 
+exports.getById = (req, res) => {
+  Peca.getById((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro na obtenção da Peca...",
+      });
+    else res.send(data);
+  });
+};
 

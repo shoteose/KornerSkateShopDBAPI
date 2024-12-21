@@ -6,6 +6,9 @@ module.exports = app => {
     // get todas as cors
     router.get("/", cor.getAll);
 
+    router.get('/:id', cor.getById);
+
+
     // inserir uma cor
     router.post("/", cor.insert);
 

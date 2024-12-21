@@ -80,3 +80,13 @@ exports.getAll = (req, res) => {
     else res.send(data);
   });
 };
+
+exports.getById = (req, res) => {
+  Genero.getById((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro na obtenção do Genero...",
+      });
+    else res.send(data);
+  });
+};

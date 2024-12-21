@@ -35,6 +35,10 @@ Peca.getAllPecas = (nome, result) => {
 };
 
 Peca.getAllPecasCategoriaUnity = (categoria, result) => {
+console.log("teste tes");
+console.log("Model foi chamado.");
+  console.log("Categoria recebida no model:", categoria);
+
   let query = `SELECT 
     p.id AS id,
     p.nome AS nome,
@@ -44,6 +48,7 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
     m.nome AS marca,
     cat.descricao AS categoria,
     g.descricao AS genero,
+    p.preco,
     p.taxa_iva,
     p.taxa_desconto
     FROM 
@@ -58,11 +63,17 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
         FROM categoria 
         WHERE descricao LIKE ?
     );
-`;
+  `;
 
-  sql.query(query, [`%${categoria}%`], (err, res) => {
+  // Passando o parâmetro corretamente
+  const params = [`%${categoria}%`];
+
+  console.log("Query a ser executada:", query);
+  console.log("Parâmetros:", params);
+
+  sql.query(query, params, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      console.log("Erro ao executar query: ", err);
       result(null, err);
       return;
     }
@@ -71,6 +82,22 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
   });
 };
 
+
+Peca.getById = (id, result) => {
+  let query;
+  query = "SELECT * FROM peca WHERE id = ?";
+
+  sql.query(query, id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("Peca: ", res);
+    result(null, res);
+  });
+};
 
 Peca.getAllPecasNomeCategoria = (categoria, result) => {
   let query = `SELECT 

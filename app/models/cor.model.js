@@ -34,6 +34,22 @@ Cor.getAll = (result) => {
   });
 };
 
+Cor.getById = (id, result) => {
+  let query;
+  query = "SELECT * FROM cor WHERE id = ?";
+
+  sql.query(query, id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("Cor: ", res);
+    result(null, res);
+  });
+};
+
 Cor.insert = (newCor, result) => {
     sql.query('INSERT INTO cor SET ?', newCor, (err, res) => {
       if (err) {

@@ -37,6 +37,22 @@ Media.insert = (newMedia, result) => {
     });
 }
 
+Media.getById = (id, result) => {
+    let query;
+    query = "SELECT * FROM media WHERE id = ?";
+  
+    sql.query(query, id, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+  
+      console.log("Media: ", res);
+      result(null, res);
+    });
+  };
+
 Media.updateById = (id, Media, result) => {
     sql.query(
         'UPDATE media SET titulo = ? ,descricao = ? , url = ? WHERE id = ?',

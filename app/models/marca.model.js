@@ -34,6 +34,22 @@ Marca.getAll = (result) => {
   });
 };
 
+Marca.getById = (id, result) => {
+  let query;
+  query = "SELECT * FROM marca WHERE id = ?";
+
+  sql.query(query, id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("Marca: ", res);
+    result(null, res);
+  });
+};
+
 Marca.insert = (newMarca, result) => {
     sql.query('INSERT INTO marca SET ?', newMarca, (err, res) => {
       if (err) {

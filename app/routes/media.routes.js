@@ -6,6 +6,9 @@ module.exports = app => {
     // get todas as medias
     router.get("/", media.getAll);
 
+    router.get('/:id', media.getById);
+
+
     // inserir uma media
     router.post("/", media.insert);
 

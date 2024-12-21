@@ -80,3 +80,13 @@ exports.getAll = (req, res) => {
     else res.send(data);
   });
 };
+
+exports.getById = (req, res) => {
+  Marca.getById((err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro na obtenção da marca...",
+      });
+    else res.send(data);
+  });
+};

@@ -6,6 +6,9 @@ module.exports = app => {
     // get todas as generos
     router.get("/", genero.getAll);
 
+    router.get('/:id', genero.getById);
+
+
     // inserir uma genero
     router.post("/", genero.insert);
 
