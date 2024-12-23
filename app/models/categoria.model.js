@@ -31,14 +31,13 @@ Categoria.getById = (id, result) => {
       result(null, err);
       return;
     }
-
     console.log("Categoria: ", res);
     result(null, res);
   });
 };
 
 Categoria.insert = (newCategoria, result) => {
-  sql.query('INSERT INTO categoria SET ?', newCategoria, (err, res) => {
+  sql.query('INSERT INTO categoria (descricao) VALUES (?)', newCategoria.descricao, (err, res) => {
     if (err) {
       console.log('error: ', err);
       result(err, null);

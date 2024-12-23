@@ -9,7 +9,7 @@ exports.insert = (req, res) => {
     } else {
     // Criar uma "Genero"
     const genero = new Genero({
-      descricao: req.body.descricao
+      descricao: req.body.descricao,
     });
   
     // Guardar "Genero" na base de dados

@@ -38,7 +38,7 @@ Tamanho.getById = (id, result) => {
 };
 
 Tamanho.insert = (newTamanho, result) => {
-    sql.query('INSERT INTO tamanho SET ?', newTamanho, (err, res) => {
+    sql.query('INSERT INTO tamanho (descricao) VALUES (?)', newTamanho.descricao, (err, res) => {
       if (err) {
         console.log('error: ', err);
         result(err, null);

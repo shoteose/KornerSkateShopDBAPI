@@ -11,7 +11,7 @@ exports.insert = (req, res) => {
         const media = new Media({
             titulo: req.body.titulo,
             descricao: req.body.descricao,
-            url: req.body.url
+            url: req.body.url,
         });
 
         // Guardar "Media" na base de dados

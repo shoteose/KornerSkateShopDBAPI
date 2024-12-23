@@ -39,7 +39,7 @@ Genero.getById = (id, result) => {
 };
 
 Genero.insert = (newGenero, result) => {
-    sql.query('INSERT INTO genero SET ?', newGenero, (err, res) => {
+    sql.query('INSERT INTO genero (descricao) VALUES (?)', newGenero.descricao, (err, res) => {
       if (err) {
         console.log('error: ', err);
         result(err, null);

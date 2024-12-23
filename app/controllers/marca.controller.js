@@ -9,7 +9,7 @@ exports.insert = (req, res) => {
     } else {
     // Criar uma "Marca"
     const marca = new Marca({
-      nome: req.body.nome
+      nome: req.body.nome,
     });
   
     // Guardar "Marca" na base de dados

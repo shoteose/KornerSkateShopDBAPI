@@ -9,7 +9,7 @@ exports.insert = (req, res) => {
     } else {
     // Criar uma "Tamanho"
     const tamanho = new Tamanho({
-      descricao: req.body.descricao
+      descricao: req.body.descricao,
     });
   
     // Guardar "Tamanho" na base de dados

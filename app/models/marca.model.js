@@ -38,7 +38,7 @@ Marca.getById = (id, result) => {
 };
 
 Marca.insert = (newMarca, result) => {
-    sql.query('INSERT INTO marca SET ?', newMarca, (err, res) => {
+    sql.query('INSERT INTO marca (nome) VALUES (?)', newMarca.nome, (err, res) => {
       if (err) {
         console.log('error: ', err);
         result(err, null);
