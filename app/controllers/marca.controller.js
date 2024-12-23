@@ -52,7 +52,6 @@ exports.update = (req, res) => {
   );
 };
 
-
   // Apagar uma marca pelo seu id
   exports.delete = (req, res) => {
     Marca.delete(req.params.id, (err, data) => {
@@ -83,7 +82,7 @@ exports.getAll = (req, res) => {
 
 exports.getById = (req, res) => {
   const id = req.params.id; 
-  Marca.getById((err, data) => {
+  Marca.getById(id,(err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Ocorreu um erro na obtenção da marca...",

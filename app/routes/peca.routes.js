@@ -8,5 +8,14 @@ module.exports = app => {
     router.get("/unity/", peca.getAllPecasCategoriaUnity);
     router.get('/:id', peca.getById);
 
-    app.use('/api/pecas', router);
+    // inserir uma peca
+    router.post("/", peca.insert);
+
+    // Apagar uma peca pelo id
+    router.delete("/:id", peca.delete);
+
+    // Atualizar uma peca
+    router.put("/:id", peca.update);
+
+    app.use('/api/peca', router);
 };

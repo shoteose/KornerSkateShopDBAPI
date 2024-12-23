@@ -85,7 +85,7 @@ exports.getAll = (req, res) => {
 
 exports.getById = (req, res) => {
   const id = req.params.id; 
-  Media.getById((err, data) => {
+  Media.getById(id,(err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Ocorreu um erro na obtenção da Media...",

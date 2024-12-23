@@ -83,7 +83,7 @@ exports.getAll = (req, res) => {
 
 exports.getById = (req, res) => {
   const id = req.params.id; 
-  Genero.getById((err, data) => {
+  Genero.getById(id,(err, data) => {
     if (err)
       res.status(500).send({
         message: err.message || "Ocorreu um erro na obtenção do Genero...",
