@@ -6,6 +6,9 @@ module.exports = app => {
     // get todas as marcas
     router.get("/", marca.getAll);
 
+    router.get('/:id', marca.getById);
+
+
     // inserir uma marca
     router.post("/", marca.insert);
 
@@ -16,5 +19,5 @@ module.exports = app => {
     router.put("/:id", marca.update);
 
 
-    app.use('/api/marcas', router);
+    app.use('/api/marca', router);
 };

@@ -5,19 +5,6 @@ const Cor = function (cor) {
   this.descricao = cor.descricao;
 };
 
-Cor.insert = (newCor, result) => {
-  sql.query("INSERT INTO cor SET ?", newCor, (err, res) => {
-    if (err) {
-      console.log("error: ", err);
-      result(err, null);
-      return;
-    }
-
-    console.log("Cor inserida: ", { id: res.insertId, ...newCor });
-    result(null, { id: res.insertId, ...newCor });
-  });
-};
-
 Cor.getAll = (result) => {
   let query;
   query = "SELECT * FROM cor";
@@ -34,18 +21,37 @@ Cor.getAll = (result) => {
   });
 };
 
+Cor.getById = (id, result) => {
+  let query;
+  query = "SELECT * FROM cor WHERE id = ?";
+
+  sql.query(query, id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("Cor: ", res);
+    result(null, res);
+  });
+};
+
 Cor.insert = (newCor, result) => {
-    sql.query('INSERT INTO cor SET ?', newCor, (err, res) => {
-      if (err) {
-        console.log('error: ', err);
-        result(err, null);
-        return;
-      }
-  
-      console.log("Cor inserido: ", { id: res.insertId, ...newCor });
-      result(null, { id: res.insertId, ...newCor });
-    });
-  }
+  console.log("Preparando para inserir nova cor:", newCor);
+
+  sql.query("INSERT INTO cor (descricao) VALUES (?)", newCor.descricao, (err, res) => {
+    if (err) {
+      console.error("error:", err);
+      result(err, null);
+      return;
+    }
+
+    console.log("Cor inserida com sucesso no banco de dados:", { id: res.insertId, ...newCor });
+    result(null, { id: res.insertId, ...newCor });
+  });
+};
+
 
   Cor.updateById = (id, Cor, result) => {
     sql.query(

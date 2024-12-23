@@ -2,7 +2,6 @@ const sql = require("./db.js");
 
 // Construtor
 const Peca = function (peca) {
-  this.id = peca.id;
   this.nome = peca.nome;
   this.descricao = peca.descricao;
   this.id_cor = peca.id_cor;
@@ -35,6 +34,10 @@ Peca.getAllPecas = (nome, result) => {
 };
 
 Peca.getAllPecasCategoriaUnity = (categoria, result) => {
+  console.log("teste tes");
+  console.log("Model foi chamado.");
+  console.log("Categoria recebida no model:", categoria);
+
   let query = `SELECT 
     p.id AS id,
     p.nome AS nome,
@@ -44,6 +47,7 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
     m.nome AS marca,
     cat.descricao AS categoria,
     g.descricao AS genero,
+    p.preco,
     p.taxa_iva,
     p.taxa_desconto
     FROM 
@@ -58,11 +62,17 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
         FROM categoria 
         WHERE descricao LIKE ?
     );
-`;
+  `;
 
-  sql.query(query, [`%${categoria}%`], (err, res) => {
+  // Passando o parâmetro corretamente
+  const params = [`%${categoria}%`];
+
+  console.log("Query a ser executada:", query);
+  console.log("Parâmetros:", params);
+
+  sql.query(query, params, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      console.log("Erro ao executar query: ", err);
       result(null, err);
       return;
     }
@@ -71,6 +81,21 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
   });
 };
 
+Peca.getById = (id, result) => {
+  let query;
+  query = "SELECT * FROM peca WHERE id = ?";
+
+  sql.query(query, id, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    console.log("Peca: ", res);
+    result(null, res);
+  });
+};
 
 Peca.getAllPecasNomeCategoria = (categoria, result) => {
   let query = `SELECT 
@@ -108,6 +133,59 @@ Peca.getAllPecasNomeCategoria = (categoria, result) => {
   });
 };
 
+Peca.insert = (newPeca, result) => {
+  sql.query('INSERT INTO peca SET ?', newPeca, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(err, null);
+      return;
+    }
 
+    console.log("Peca inserido: ", { id: res.insertId, ...newPeca });
+    result(null, { id: res.insertId, ...newPeca });
+  });
+};
+
+Peca.delete = (id, result) => {
+  sql.query('DELETE FROM peca WHERE id = ?', id, (err, res) => {
+    if (err) {
+      console.log('error: ', err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Peca with the id
+      result({ Peca: "not_found" }, null);
+      return;
+    }
+
+    console.log("Peca eliminada com o id: ", id);
+    result(null, res);
+  });
+};
+
+Peca.updateById = (id, Peca, result) => {
+  sql.query(
+    'UPDATE peca SET ? WHERE id = ?',
+    [Peca, id],
+    (err, res) => {
+      if (err) {
+        console.log('error: ', err);
+        result(null, err);
+        return;
+      }
+
+      if (res.affectedRows == 0) {
+        // not found Peca
+        result({ Peca: "not_found" }, null);
+        return;
+      }
+
+      console.log('Peca atualizada: ', { id: id, ...Peca });
+      result(null, { id: id, ...Peca });
+    }
+  );
+};
 
 module.exports = Peca;

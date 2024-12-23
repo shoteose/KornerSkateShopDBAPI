@@ -6,9 +6,11 @@ module.exports = app => {
     // get todas as cors
     router.get("/", cor.getAll);
 
+    router.get("/:id", cor.getById);
+    
     // inserir uma cor
     router.post("/", cor.insert);
-
+    
     // Apagar uma cor pelo id
     router.delete("/:id", cor.delete);
 
@@ -16,5 +18,5 @@ module.exports = app => {
     router.put("/:id", cor.update);
 
 
-    app.use('/api/cors', router);
+    app.use('/api/cor', router);
 };

@@ -9,7 +9,7 @@ exports.insert = (req, res) => {
     } else {
     // Criar uma "Categoria"
     const categoria = new Categoria({
-      descricao: req.body.descricao
+      descricao: req.body.descricao,
     });
   
     // Guardar "Categoria" na base de dados
@@ -76,6 +76,17 @@ exports.getAll = (req, res) => {
     if (err)
       res.status(500).send({
         message: err.message || "Ocorreu um erro na obtenção da(s) categoria(s)...",
+      });
+    else res.send(data);
+  });
+};
+
+exports.getById = (req, res) => {
+  const id = req.params.id; 
+  Categoria.getById(id,(err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro na obtenção da categoria...",
       });
     else res.send(data);
   });

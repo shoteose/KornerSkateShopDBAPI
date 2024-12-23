@@ -6,6 +6,9 @@ module.exports = app => {
     // get todas as generos
     router.get("/", genero.getAll);
 
+    router.get('/:id', genero.getById);
+
+
     // inserir uma genero
     router.post("/", genero.insert);
 
@@ -16,5 +19,5 @@ module.exports = app => {
     router.put("/:id", genero.update);
 
 
-    app.use('/api/generos', router);
+    app.use('/api/genero', router);
 };

@@ -9,7 +9,7 @@ exports.insert = (req, res) => {
     } else {
     // Criar uma "Marca"
     const marca = new Marca({
-      nome: req.body.nome
+      nome: req.body.nome,
     });
   
     // Guardar "Marca" na base de dados
@@ -52,7 +52,6 @@ exports.update = (req, res) => {
   );
 };
 
-
   // Apagar uma marca pelo seu id
   exports.delete = (req, res) => {
     Marca.delete(req.params.id, (err, data) => {
@@ -76,6 +75,17 @@ exports.getAll = (req, res) => {
     if (err)
       res.status(500).send({
         message: err.message || "Ocorreu um erro na obtenção da(s) marca(s)...",
+      });
+    else res.send(data);
+  });
+};
+
+exports.getById = (req, res) => {
+  const id = req.params.id; 
+  Marca.getById(id,(err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro na obtenção da marca...",
       });
     else res.send(data);
   });

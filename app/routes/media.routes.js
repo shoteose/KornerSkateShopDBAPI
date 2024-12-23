@@ -6,6 +6,9 @@ module.exports = app => {
     // get todas as medias
     router.get("/", media.getAll);
 
+    router.get('/:id', media.getById);
+
+
     // inserir uma media
     router.post("/", media.insert);
 
@@ -16,5 +19,5 @@ module.exports = app => {
     router.put("/:id", media.update);
 
 
-    app.use('/api/medias', router);
+    app.use('/api/media', router);
 };

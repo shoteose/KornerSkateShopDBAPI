@@ -6,6 +6,8 @@ module.exports = app => {
     // get todas as categorias
     router.get("/", categoria.getAll);
 
+    router.get('/:id', categoria.getById);
+
     // inserir uma categoria
     router.post("/", categoria.insert);
 
@@ -16,5 +18,5 @@ module.exports = app => {
     router.put("/:id", categoria.update);
 
 
-    app.use('/api/categorias', router);
+    app.use('/api/categoria', router);
 };

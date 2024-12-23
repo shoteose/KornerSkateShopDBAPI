@@ -9,7 +9,7 @@ exports.insert = (req, res) => {
     } else {
     // Criar uma "Genero"
     const genero = new Genero({
-      descricao: req.body.descricao
+      descricao: req.body.descricao,
     });
   
     // Guardar "Genero" na base de dados
@@ -76,6 +76,17 @@ exports.getAll = (req, res) => {
     if (err)
       res.status(500).send({
         message: err.message || "Ocorreu um erro na obtenção da(s) genero(s)...",
+      });
+    else res.send(data);
+  });
+};
+
+exports.getById = (req, res) => {
+  const id = req.params.id; 
+  Genero.getById(id,(err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro na obtenção do Genero...",
       });
     else res.send(data);
   });

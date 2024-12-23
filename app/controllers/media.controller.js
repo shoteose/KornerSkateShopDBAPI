@@ -11,7 +11,7 @@ exports.insert = (req, res) => {
         const media = new Media({
             titulo: req.body.titulo,
             descricao: req.body.descricao,
-            url: req.body.url
+            url: req.body.url,
         });
 
         // Guardar "Media" na base de dados
@@ -81,4 +81,15 @@ exports.getAll = (req, res) => {
             });
         else res.send(data);
     });
+};
+
+exports.getById = (req, res) => {
+  const id = req.params.id; 
+  Media.getById(id,(err, data) => {
+    if (err)
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro na obtenção da Media...",
+      });
+    else res.send(data);
+  });
 };

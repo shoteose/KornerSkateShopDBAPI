@@ -88,7 +88,7 @@ CREATE TABLE `peca` (
   FOREIGN KEY (`id_genero`) REFERENCES `genero` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
-INSERT INTO `peca` (`nome`, `descricao`, `imagemTextura`, `tridimensional`, `id_cor`, `id_marca`, `id_categoria`, `id_genero`, `taxa_iva`, `taxa_desconto`) VALUES
+INSERT INTO `peca` (`nome`, `descricao`, `imagemTextura`, `tridimensional`, `id_cor`, `id_marca`, `id_categoria`, `id_genero`,`preco`, `taxa_iva`, `taxa_desconto`) VALUES
 ('Roda Classic', 'Roda de skate de alta performance', '', 0, 1, 3, 7, 3, 44, 23, 10),
 ('T-shirt Logo Antihero', 'T-shirt com o logo da marca Antihero', '', 0, 2, 1, 1, 1,35, 23, 5),
 ('T-shirt 1', 'T-shirt com o logo 1', '', 0, 2, 1, 1, 1,35, 23, 5),
