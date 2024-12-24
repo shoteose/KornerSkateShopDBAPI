@@ -94,3 +94,31 @@ exports.getById = (req, res) => {
     else res.send(data);
   });
 };
+
+exports.login = (req, res) => {
+    const logUser = {
+        email: req.body.email, // Dados recebidos no corpo da requisição
+        pass: req.body.pass
+    };
+
+    console.log("Tentativa de login com email: " + logUser.email + " e senha: " + logUser.pass);
+    User.login(logUser, (err, data) => {
+        if (err) {
+            console.error("Erro ao tentar fazer login:", err);
+            res.status(500).send({
+                message: err.message || "Ocorreu um erro ao tentar fazer o login."
+            });
+            return;
+        } else if (!data) {
+            console.log("Login falhou: email ou senha inválidos.");
+            res.status(401).send({
+                message: "Email ou senha inválidos."
+            });
+            return;
+        } else {
+            console.log("Login bem-sucedido:", data);
+            res.send(data);
+            return;
+        }
+    });
+};

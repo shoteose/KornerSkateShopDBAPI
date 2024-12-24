@@ -8,7 +8,7 @@ module.exports = app => {
 
     router.get('/:id', user.getById);
 
-
+    router.post('/login/',user.login);
     // inserir uma user
     router.post("/", user.insert);
 
