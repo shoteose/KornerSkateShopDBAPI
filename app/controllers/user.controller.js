@@ -110,9 +110,9 @@ exports.login = (req, res) => {
             });
             return;
         } else if (!data) {
-            console.log("Login falhou: email ou senha inválidos.");
+            console.log("Login falhou: email ou pass inválidos.");
             res.status(401).send({
-                message: "Email ou senha inválidos."
+                message: "Dados Inválidos."
             });
             return;
         } else {

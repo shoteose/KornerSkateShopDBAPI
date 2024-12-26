@@ -83,7 +83,25 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
 
 Peca.getById = (id, result) => {
   let query;
-  query = "SELECT * FROM peca WHERE id = ?";
+  query = `SELECT 
+    p.id AS id,
+    p.nome AS nome,
+    p.descricao AS descricao,
+    c.descricao AS cor,
+    m.nome AS marca,
+    cat.descricao AS categoria,
+    g.descricao AS genero,
+    p.preco,
+    p.taxa_iva,
+    p.taxa_desconto
+    FROM 
+    peca p
+    LEFT JOIN cor c ON p.id_cor = c.id
+    LEFT JOIN marca m ON p.id_marca = m.id
+    LEFT JOIN categoria cat ON p.id_categoria = cat.id
+    LEFT JOIN genero g ON p.id_genero = g.id
+    WHERE 
+    p.id = ?`;
 
   sql.query(query, id, (err, res) => {
     if (err) {
@@ -132,6 +150,108 @@ Peca.getAllPecasNomeCategoria = (categoria, result) => {
     result(null, res);
   });
 };
+
+Peca.getAllPecasByCategoriaId = ($id, result) => {
+  let query = `SELECT 
+    p.id AS id,
+    p.nome AS nome,
+    p.descricao AS descricao,
+    c.descricao AS cor,
+    m.nome AS marca,
+    cat.descricao AS categoria,
+    g.descricao AS genero,
+    p.preco,
+    p.taxa_iva,
+    p.taxa_desconto
+    FROM 
+    peca p
+    LEFT JOIN cor c ON p.id_cor = c.id
+    LEFT JOIN marca m ON p.id_marca = m.id
+    LEFT JOIN categoria cat ON p.id_categoria = cat.id
+    LEFT JOIN genero g ON p.id_genero = g.id
+    WHERE 
+    p.id_categoria = ?;
+    ;
+`;
+
+  sql.query(query, [$id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    result(null, res);
+  });
+};
+
+Peca.getAllPecasByGeneroId = ($id, result) => {
+  let query = `SELECT 
+    p.id AS id,
+    p.nome AS nome,
+    p.descricao AS descricao,
+    c.descricao AS cor,
+    m.nome AS marca,
+    cat.descricao AS categoria,
+    g.descricao AS genero,
+    p.preco,
+    p.taxa_iva,
+    p.taxa_desconto
+    FROM 
+    peca p
+    LEFT JOIN cor c ON p.id_cor = c.id
+    LEFT JOIN marca m ON p.id_marca = m.id
+    LEFT JOIN categoria cat ON p.id_categoria = cat.id
+    LEFT JOIN genero g ON p.id_genero = g.id
+    WHERE 
+    p.id_genero = ?;
+`;
+
+  sql.query(query, [$id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    result(null, res);
+  });
+};
+
+Peca.getAllPecasComDesconto = ($id, result) => {
+
+  let query = `SELECT 
+    p.id AS id,
+    p.nome AS nome,
+    p.descricao AS descricao,
+    c.descricao AS cor,
+    m.nome AS marca,
+    cat.descricao AS categoria,
+    g.descricao AS genero,
+    p.preco,
+    p.taxa_iva,
+    p.taxa_desconto
+    FROM 
+    peca p
+    LEFT JOIN cor c ON p.id_cor = c.id
+    LEFT JOIN marca m ON p.id_marca = m.id
+    LEFT JOIN categoria cat ON p.id_categoria = cat.id
+    LEFT JOIN genero g ON p.id_genero = g.id
+    WHERE 
+    p.taxa_desconto > 0;
+`;
+
+  sql.query(query, [$id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    result(null, res);
+  });
+};
+
 
 Peca.insert = (newPeca, result) => {
   sql.query('INSERT INTO peca SET ?', newPeca, (err, res) => {

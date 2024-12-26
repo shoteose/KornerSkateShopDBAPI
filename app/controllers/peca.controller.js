@@ -106,6 +106,58 @@ exports.getAllPecasCategoriaUnity = (req, res) => {
   });
 };
 
+exports.getAllPecasByCategoriaId = (req, res) => {
+
+const id = req.params.id;
+Peca.getAllPecasByCategoriaId(id, (err, data) => {
+
+  if (err) {
+    res.status(500).send({
+      message: err.message || "Ocorreu um erro na obtenção da Peca...",
+    });
+  } else {
+    res.send(data);
+  }
+
+});
+
+};
+
+exports.getAllPecasByGeneroId = (req, res) => {
+
+  const id = req.params.id;
+  Peca.getAllPecasByGeneroId(id, (err, data) => {
+  
+    if (err) {
+      res.status(500).send({
+        message: err.message || "Ocorreu um erro na obtenção da Peca...",
+      });
+    } else {
+      res.send(data);
+    }
+  
+  });
+  
+  };
+
+  exports.getAllPecasComDesconto = (req, res) => {
+
+    const id = req.params.id;
+    Peca.getAllPecasComDesconto(id, (err, data) => {
+    
+      if (err) {
+        res.status(500).send({
+          message: err.message || "Ocorreu um erro na obtenção da Peca...",
+        });
+      } else {
+        res.send(data);
+      }
+    
+    });
+    
+    };
+  
+
 exports.getById = (req, res) => {
   const id = req.params.id; 
   Peca.getById(id, (err, data) => {
