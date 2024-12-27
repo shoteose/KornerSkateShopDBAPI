@@ -93,15 +93,22 @@ Peca.getById = (id, result) => {
     g.descricao AS genero,
     p.preco,
     p.taxa_iva,
-    p.taxa_desconto
+    p.taxa_desconto,
+    t.descricao AS tamanho,
+    SUM(s.quantidade) AS quantidade_total_estoque
     FROM 
     peca p
     LEFT JOIN cor c ON p.id_cor = c.id
     LEFT JOIN marca m ON p.id_marca = m.id
     LEFT JOIN categoria cat ON p.id_categoria = cat.id
     LEFT JOIN genero g ON p.id_genero = g.id
+    LEFT JOIN stock s ON p.id = s.id_peca
+    LEFT JOIN tamanho t ON s.id_tamanho = t.id
     WHERE 
-    p.id = ?`;
+    p.id = 1
+    GROUP BY 
+    p.id, 
+    t.descricao;`;
 
   sql.query(query, id, (err, res) => {
     if (err) {
@@ -137,8 +144,7 @@ Peca.getAllPecasNomeCategoria = (categoria, result) => {
         SELECT id 
         FROM categoria 
         WHERE descricao LIKE ?
-    );
-`;
+    );`;
 
   sql.query(query, [`%${categoria}%`], (err, res) => {
     if (err) {
@@ -251,7 +257,6 @@ Peca.getAllPecasComDesconto = ($id, result) => {
     result(null, res);
   });
 };
-
 
 Peca.insert = (newPeca, result) => {
   sql.query('INSERT INTO peca SET ?', newPeca, (err, res) => {
