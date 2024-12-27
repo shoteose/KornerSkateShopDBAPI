@@ -83,32 +83,34 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
 
 Peca.getById = (id, result) => {
   let query;
-  query = `SELECT 
-    p.id AS id,
-    p.nome AS nome,
-    p.descricao AS descricao,
-    c.descricao AS cor,
-    m.nome AS marca,
-    cat.descricao AS categoria,
-    g.descricao AS genero,
-    p.preco,
-    p.taxa_iva,
-    p.taxa_desconto,
-    t.descricao AS tamanho,
-    SUM(s.quantidade) AS quantidade_total_estoque
-    FROM 
-    peca p
-    LEFT JOIN cor c ON p.id_cor = c.id
-    LEFT JOIN marca m ON p.id_marca = m.id
-    LEFT JOIN categoria cat ON p.id_categoria = cat.id
-    LEFT JOIN genero g ON p.id_genero = g.id
-    LEFT JOIN stock s ON p.id = s.id_peca
-    LEFT JOIN tamanho t ON s.id_tamanho = t.id
-    WHERE 
-    p.id = 1
-    GROUP BY 
-    p.id, 
-    t.descricao;`;
+  query = `SELECT p.id AS id, 
+  p.nome AS nome, 
+  p.descricao AS descricao, 
+  p.id_marca,
+  p.id_cor,
+  p.id_categoria,
+  p.id_genero,
+  c.descricao AS cor, 
+  m.nome AS marca, 
+  cat.descricao AS categoria, 
+  g.descricao AS genero, 
+  p.preco, p.taxa_iva, 
+  p.taxa_desconto, 
+  t.descricao AS tamanho, 
+  SUM(s.quantidade) AS quantidade_total_stock, 
+  COUNT(f.id) AS quantidade_fotos, 
+  GROUP_CONCAT(f.nome_arquivo SEPARATOR ', ') AS caminhos_fotos 
+  FROM peca p 
+  LEFT JOIN cor c ON p.id_cor = c.id 
+  LEFT JOIN marca m ON p.id_marca = m.id 
+  LEFT JOIN categoria cat ON p.id_categoria = cat.id 
+  LEFT JOIN genero g ON p.id_genero = g.id 
+  LEFT JOIN stock s ON p.id = s.id_peca 
+  LEFT JOIN tamanho t ON s.id_tamanho = t.id 
+  LEFT JOIN pecas_fotos pf ON p.id = pf.id_peca 
+  LEFT JOIN fotos f ON pf.id_foto = f.id 
+  WHERE p.id = ? 
+  GROUP BY p.id, t.descricao;`;
 
   sql.query(query, id, (err, res) => {
     if (err) {
@@ -211,6 +213,39 @@ Peca.getAllPecasByGeneroId = ($id, result) => {
     LEFT JOIN genero g ON p.id_genero = g.id
     WHERE 
     p.id_genero = ?;
+`;
+
+  sql.query(query, [$id], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    result(null, res);
+  });
+};
+
+Peca.getAllPecasByMarcaId = ($id, result) => {
+  let query = `SELECT 
+    p.id AS id,
+    p.nome AS nome,
+    p.descricao AS descricao,
+    c.descricao AS cor,
+    m.nome AS marca,
+    cat.descricao AS categoria,
+    g.descricao AS genero,
+    p.preco,
+    p.taxa_iva,
+    p.taxa_desconto
+    FROM 
+    peca p
+    LEFT JOIN cor c ON p.id_cor = c.id
+    LEFT JOIN marca m ON p.id_marca = m.id
+    LEFT JOIN categoria cat ON p.id_categoria = cat.id
+    LEFT JOIN genero g ON p.id_genero = g.id
+    WHERE 
+    p.id_marca = ?;
 `;
 
   sql.query(query, [$id], (err, res) => {

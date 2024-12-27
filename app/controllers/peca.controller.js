@@ -140,6 +140,23 @@ exports.getAllPecasByGeneroId = (req, res) => {
   
   };
 
+  exports.getAllPecasByMarcaId = (req, res) => {
+
+    const id = req.params.id;
+    Peca.getAllPecasByMarcaId(id, (err, data) => {
+    
+      if (err) {
+        res.status(500).send({
+          message: err.message || "Ocorreu um erro na obtenção da Peca...",
+        });
+      } else {
+        res.send(data);
+      }
+    
+    });
+    
+    };
+
   exports.getAllPecasComDesconto = (req, res) => {
 
     const id = req.params.id;
