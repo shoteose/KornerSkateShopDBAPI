@@ -147,6 +147,8 @@ INSERT INTO `tipo_user` (`descricao`) VALUES
 CREATE TABLE `user` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `email` VARCHAR(100) NOT NULL,
+  `nome` VARCHAR(50) NOT NULL,
+  `apelido` VARCHAR(50) NOT NULL,
   `pass` VARCHAR(255) NOT NULL,
   `id_tipoUser` INT NOT NULL,
   FOREIGN KEY (`id_tipoUser`) REFERENCES `tipo_user` (`id`) ON DELETE CASCADE

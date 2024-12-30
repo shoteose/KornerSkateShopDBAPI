@@ -8,6 +8,8 @@ module.exports = app => {
 
     router.get('/:id', user.getById);
 
+    router.get('/emailcheck/:email', user.emailcheck);
+
     router.post('/login/',user.login);
     // inserir uma user
     router.post("/", user.insert);

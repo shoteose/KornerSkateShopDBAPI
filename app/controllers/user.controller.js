@@ -11,6 +11,8 @@ exports.insert = (req, res) => {
         const user = new User({
             
             email: req.body.email,
+            nome: req.body.nome,
+            apelido: req.body.apelido,
             pass: req.body.pass,
             
         });
@@ -83,6 +85,18 @@ exports.getAll = (req, res) => {
         else res.send(data);
     });
 };
+
+exports.emailcheck = (req, res) => {
+     const email = req.params.email;
+    User.emailcheck(email,(err, data) => {
+      if (err)
+        res.status(500).send({
+          message: err.message || "Ocorreu um erro na obtenção da User...",
+        });
+      else res.send(data);
+    });
+  };
+  
 
 exports.getById = (req, res) => {
   const id = req.params.id; 
