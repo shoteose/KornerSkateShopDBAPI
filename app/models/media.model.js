@@ -10,7 +10,7 @@ const Media = function (media) {
 
 Media.getAll = (result) => {
     let query;
-    query = "SELECT * FROM media";
+    query = "SELECT * FROM media ORDER BY id DESC";
 
     sql.query(query, (err, res) => {
         if (err) {

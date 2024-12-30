@@ -76,8 +76,8 @@ User.insert = (newUser, result) => {
 
 User.updateById = (id, User, result) => {
   sql.query(
-    'UPDATE user SET email = ? , pass = ? WHERE id = ?',
-    [User.email, User.pass, id],
+    'UPDATE user SET email= ? , nome = ? , apelido = ? , pass = ? WHERE id = ?',
+    [User.email, User.nome, User.apelido, User.pass, id],
     (err, res) => {
       if (err) {
         console.log('error: ', err);
