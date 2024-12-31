@@ -49,6 +49,7 @@ app.get("/", (req, res) => {
 require('./app/routes/peca.routes.js')(app);
 require('./app/routes/categoria.routes.js')(app);
 require('./app/routes/cor.routes.js')(app);
+require('./app/routes/stock.routes.js')(app);
 require('./app/routes/genero.routes.js')(app);
 require('./app/routes/marca.routes.js')(app);
 require('./app/routes/tamanho.routes.js')(app);

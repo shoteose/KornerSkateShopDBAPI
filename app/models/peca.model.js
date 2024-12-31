@@ -15,7 +15,31 @@ const Peca = function (peca) {
 };
 
 Peca.getAllPecas = (nome, result) => {
-  let query = "SELECT * FROM peca";
+  let query = `
+  SELECT 
+    p.id AS id,
+    p.nome AS nome,
+    p.descricao AS descricao,
+    p.id_cor,
+    p.id_marca,
+    p.id_categoria,
+    p.id_genero,
+    p.tridimensional,
+    p.imagemTextura,
+    c.descricao AS cor,
+    m.nome AS marca,
+    cat.descricao AS categoria,
+    g.descricao AS genero,
+    p.preco,
+    p.taxa_iva,
+    p.taxa_desconto
+    FROM 
+    peca p
+    LEFT JOIN cor c ON p.id_cor = c.id
+    LEFT JOIN marca m ON p.id_marca = m.id
+    LEFT JOIN categoria cat ON p.id_categoria = cat.id
+    LEFT JOIN genero g ON p.id_genero = g.id
+  `;
 
   if (nome) {
     query += ` WHERE nome LIKE '%${nome}%'`;
