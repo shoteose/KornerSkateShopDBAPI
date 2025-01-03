@@ -73,7 +73,7 @@ CREATE TABLE `peca` (
   `id` INT AUTO_INCREMENT PRIMARY KEY,
   `nome` VARCHAR(100) NOT NULL,
   `descricao` VARCHAR(150),
-  `imagemTextura` BLOB NOT NULL,
+  `imagemTextura` BLOB,
   `tridimensional` TINYINT(1) NOT NULL,
   `id_cor` INT,
   `id_marca` INT,

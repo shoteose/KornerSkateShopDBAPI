@@ -85,8 +85,8 @@ Stock.insert = (newStock, result) => {
 
 Stock.updateById = (id, Stock, result) => {
   sql.query(
-    'UPDATE stock SET descricao = ? WHERE id = ?',
-    [Stock.descricao, id],
+    'UPDATE stock SET quantidade = ? WHERE id = ?',
+    [Stock.quantidade, id],
     (err, res) => {
       if (err) {
         console.log('error: ', err);

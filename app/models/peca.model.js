@@ -11,12 +11,13 @@ const Peca = function (peca) {
   this.preco = peca.preco;
   this.taxa_iva = peca.taxa_iva;
   this.taxa_desconto = peca.taxa_desconto;
-  this.imagemTextura = peca.imagemTextura;
+  this.tridimensional = peca.tridimensional;
+  this.imagemTextura = peca.imagemTextura ? peca.imagemTextura : null;
 };
 
 Peca.getAllPecas = (nome, result) => {
   let query = `
-  SELECT 
+ SELECT 
     p.id AS id,
     p.nome AS nome,
     p.descricao AS descricao,
@@ -32,13 +33,38 @@ Peca.getAllPecas = (nome, result) => {
     g.descricao AS genero,
     p.preco,
     p.taxa_iva,
-    p.taxa_desconto
-    FROM 
+    p.taxa_desconto,
+    (SELECT f.nome_arquivo 
+ FROM pecas_fotos pf 
+ LEFT JOIN fotos f ON pf.id_foto = f.id 
+ WHERE pf.id_peca = p.id 
+ LIMIT 1) AS nome_arquivo
+FROM 
     peca p
-    LEFT JOIN cor c ON p.id_cor = c.id
-    LEFT JOIN marca m ON p.id_marca = m.id
-    LEFT JOIN categoria cat ON p.id_categoria = cat.id
-    LEFT JOIN genero g ON p.id_genero = g.id
+LEFT JOIN cor c ON p.id_cor = c.id
+LEFT JOIN marca m ON p.id_marca = m.id
+LEFT JOIN categoria cat ON p.id_categoria = cat.id
+LEFT JOIN genero g ON p.id_genero = g.id
+LEFT JOIN pecas_fotos pf ON p.id = pf.id_peca
+LEFT JOIN fotos f ON pf.id_foto = f.id
+GROUP BY 
+    p.id, 
+    p.nome, 
+    p.descricao, 
+    p.id_cor, 
+    p.id_marca, 
+    p.id_categoria, 
+    p.id_genero, 
+    p.tridimensional, 
+    p.imagemTextura, 
+    c.descricao, 
+    m.nome, 
+    cat.descricao, 
+    g.descricao, 
+    p.preco, 
+    p.taxa_iva, 
+    p.taxa_desconto;
+
   `;
 
   if (nome) {
@@ -107,34 +133,46 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
 
 Peca.getById = (id, result) => {
   let query;
-  query = `SELECT p.id AS id, 
+  query = `SELECT 
+  p.id AS id, 
   p.nome AS nome, 
   p.descricao AS descricao, 
   p.id_marca,
   p.id_cor,
   p.id_categoria,
   p.id_genero,
+  p.tridimensional,
+  p.imagemTextura,
   c.descricao AS cor, 
   m.nome AS marca, 
   cat.descricao AS categoria, 
   g.descricao AS genero, 
-  p.preco, p.taxa_iva, 
+  p.preco, 
+  p.taxa_iva, 
   p.taxa_desconto, 
   t.descricao AS tamanho, 
   SUM(s.quantidade) AS quantidade_total_stock, 
-  COUNT(f.id) AS quantidade_fotos, 
-  GROUP_CONCAT(f.nome_arquivo SEPARATOR ', ') AS caminhos_fotos 
-  FROM peca p 
-  LEFT JOIN cor c ON p.id_cor = c.id 
-  LEFT JOIN marca m ON p.id_marca = m.id 
-  LEFT JOIN categoria cat ON p.id_categoria = cat.id 
-  LEFT JOIN genero g ON p.id_genero = g.id 
-  LEFT JOIN stock s ON p.id = s.id_peca 
-  LEFT JOIN tamanho t ON s.id_tamanho = t.id 
-  LEFT JOIN pecas_fotos pf ON p.id = pf.id_peca 
-  LEFT JOIN fotos f ON pf.id_foto = f.id 
-  WHERE p.id = ? 
-  GROUP BY p.id, t.descricao;`;
+  (SELECT COUNT(f.id) 
+   FROM pecas_fotos pf 
+   LEFT JOIN fotos f ON pf.id_foto = f.id 
+   WHERE pf.id_peca = p.id) AS quantidade_fotos,
+  (SELECT GROUP_CONCAT(f.nome_arquivo SEPARATOR ', ') 
+   FROM pecas_fotos pf 
+   LEFT JOIN fotos f ON pf.id_foto = f.id 
+   WHERE pf.id_peca = p.id) AS caminhos_fotos 
+FROM 
+  peca p 
+LEFT JOIN cor c ON p.id_cor = c.id 
+LEFT JOIN marca m ON p.id_marca = m.id 
+LEFT JOIN categoria cat ON p.id_categoria = cat.id 
+LEFT JOIN genero g ON p.id_genero = g.id 
+LEFT JOIN stock s ON p.id = s.id_peca 
+LEFT JOIN tamanho t ON s.id_tamanho = t.id 
+WHERE 
+  p.id = ? 
+GROUP BY 
+  p.id, t.descricao;
+`;
 
   sql.query(query, id, (err, res) => {
     if (err) {
@@ -158,13 +196,20 @@ Peca.getAllPecasNomeCategoria = (categoria, result) => {
     cat.descricao AS categoria,
     g.descricao AS genero,
     p.taxa_iva,
-    p.taxa_desconto
+    p.taxa_desconto,
+    (SELECT f.nome_arquivo 
+ FROM pecas_fotos pf 
+ LEFT JOIN fotos f ON pf.id_foto = f.id 
+ WHERE pf.id_peca = p.id 
+ LIMIT 1) AS nome_arquivo
     FROM 
     peca p
     LEFT JOIN cor c ON p.id_cor = c.id
     LEFT JOIN marca m ON p.id_marca = m.id
     LEFT JOIN categoria cat ON p.id_categoria = cat.id
     LEFT JOIN genero g ON p.id_genero = g.id
+    LEFT JOIN pecas_fotos pf ON p.id = pf.id_peca
+LEFT JOIN fotos f ON pf.id_foto = f.id
     WHERE 
     p.id_categoria IN (
         SELECT id 
@@ -194,16 +239,39 @@ Peca.getAllPecasByCategoriaId = ($id, result) => {
     g.descricao AS genero,
     p.preco,
     p.taxa_iva,
-    p.taxa_desconto
-    FROM 
+    p.taxa_desconto,
+    (SELECT f.nome_arquivo 
+ FROM pecas_fotos pf 
+ LEFT JOIN fotos f ON pf.id_foto = f.id 
+ WHERE pf.id_peca = p.id 
+ LIMIT 1) AS nome_arquivo
+FROM 
     peca p
-    LEFT JOIN cor c ON p.id_cor = c.id
-    LEFT JOIN marca m ON p.id_marca = m.id
-    LEFT JOIN categoria cat ON p.id_categoria = cat.id
-    LEFT JOIN genero g ON p.id_genero = g.id
-    WHERE 
-    p.id_categoria = ?;
-    ;
+LEFT JOIN cor c ON p.id_cor = c.id
+LEFT JOIN marca m ON p.id_marca = m.id
+LEFT JOIN categoria cat ON p.id_categoria = cat.id
+LEFT JOIN genero g ON p.id_genero = g.id
+LEFT JOIN pecas_fotos pf ON p.id = pf.id_peca
+LEFT JOIN fotos f ON pf.id_foto = f.id
+WHERE 
+    p.id_categoria = ?
+GROUP BY 
+    p.id, 
+    p.nome, 
+    p.descricao, 
+    p.id_cor, 
+    p.id_marca, 
+    p.id_categoria, 
+    p.id_genero, 
+    p.tridimensional, 
+    p.imagemTextura, 
+    c.descricao, 
+    m.nome, 
+    cat.descricao, 
+    g.descricao, 
+    p.preco, 
+    p.taxa_iva, 
+    p.taxa_desconto;
 `;
 
   sql.query(query, [$id], (err, res) => {
@@ -218,7 +286,8 @@ Peca.getAllPecasByCategoriaId = ($id, result) => {
 };
 
 Peca.getAllPecasByGeneroId = ($id, result) => {
-  let query = `SELECT 
+  let query = `
+SELECT 
     p.id AS id,
     p.nome AS nome,
     p.descricao AS descricao,
@@ -228,18 +297,42 @@ Peca.getAllPecasByGeneroId = ($id, result) => {
     g.descricao AS genero,
     p.preco,
     p.taxa_iva,
-    p.taxa_desconto
+    p.taxa_desconto,
+    (SELECT f.nome_arquivo 
+ FROM pecas_fotos pf 
+ LEFT JOIN fotos f ON pf.id_foto = f.id 
+ WHERE pf.id_peca = p.id 
+ LIMIT 1) AS nome_arquivo
     FROM 
     peca p
     LEFT JOIN cor c ON p.id_cor = c.id
     LEFT JOIN marca m ON p.id_marca = m.id
     LEFT JOIN categoria cat ON p.id_categoria = cat.id
     LEFT JOIN genero g ON p.id_genero = g.id
+    LEFT JOIN pecas_fotos pf ON p.id = pf.id_peca
+LEFT JOIN fotos f ON pf.id_foto = f.id
     WHERE 
-    p.id_genero = ?;
-`;
+    p.id_genero = ?
+GROUP BY 
+    p.id, 
+    p.nome, 
+    p.descricao, 
+    p.id_cor, 
+    p.id_marca, 
+    p.id_categoria, 
+    p.id_genero, 
+    p.tridimensional, 
+    p.imagemTextura, 
+    c.descricao, 
+    m.nome, 
+    cat.descricao, 
+    g.descricao, 
+    p.preco, 
+    p.taxa_iva, 
+    p.taxa_desconto;
+  `;
 
-  sql.query(query, [$id], (err, res) => {
+  sql.query(query, $id, (err, res) => {
     if (err) {
       console.log("error: ", err);
       result(null, err);
@@ -261,15 +354,39 @@ Peca.getAllPecasByMarcaId = ($id, result) => {
     g.descricao AS genero,
     p.preco,
     p.taxa_iva,
-    p.taxa_desconto
+    p.taxa_desconto,
+    (SELECT f.nome_arquivo 
+ FROM pecas_fotos pf 
+ LEFT JOIN fotos f ON pf.id_foto = f.id 
+ WHERE pf.id_peca = p.id 
+ LIMIT 1) AS nome_arquivo
     FROM 
     peca p
     LEFT JOIN cor c ON p.id_cor = c.id
     LEFT JOIN marca m ON p.id_marca = m.id
     LEFT JOIN categoria cat ON p.id_categoria = cat.id
     LEFT JOIN genero g ON p.id_genero = g.id
+    LEFT JOIN pecas_fotos pf ON p.id = pf.id_peca
+LEFT JOIN fotos f ON pf.id_foto = f.id
     WHERE 
-    p.id_marca = ?;
+    p.id_marca = ?
+GROUP BY 
+    p.id, 
+    p.nome, 
+    p.descricao, 
+    p.id_cor, 
+    p.id_marca, 
+    p.id_categoria, 
+    p.id_genero, 
+    p.tridimensional, 
+    p.imagemTextura, 
+    c.descricao, 
+    m.nome, 
+    cat.descricao, 
+    g.descricao, 
+    p.preco, 
+    p.taxa_iva, 
+    p.taxa_desconto;
 `;
 
   sql.query(query, [$id], (err, res) => {
@@ -295,15 +412,39 @@ Peca.getAllPecasComDesconto = ($id, result) => {
     g.descricao AS genero,
     p.preco,
     p.taxa_iva,
-    p.taxa_desconto
+    p.taxa_desconto,
+    (SELECT f.nome_arquivo 
+ FROM pecas_fotos pf 
+ LEFT JOIN fotos f ON pf.id_foto = f.id 
+ WHERE pf.id_peca = p.id 
+ LIMIT 1) AS nome_arquivo
     FROM 
     peca p
     LEFT JOIN cor c ON p.id_cor = c.id
     LEFT JOIN marca m ON p.id_marca = m.id
     LEFT JOIN categoria cat ON p.id_categoria = cat.id
     LEFT JOIN genero g ON p.id_genero = g.id
+    LEFT JOIN pecas_fotos pf ON p.id = pf.id_peca
+LEFT JOIN fotos f ON pf.id_foto = f.id
     WHERE 
-    p.taxa_desconto > 0;
+    p.taxa_desconto > 0
+GROUP BY 
+    p.id, 
+    p.nome, 
+    p.descricao, 
+    p.id_cor, 
+    p.id_marca, 
+    p.id_categoria, 
+    p.id_genero, 
+    p.tridimensional, 
+    p.imagemTextura, 
+    c.descricao, 
+    m.nome, 
+    cat.descricao, 
+    g.descricao, 
+    p.preco, 
+    p.taxa_iva, 
+    p.taxa_desconto;
 `;
 
   sql.query(query, [$id], (err, res) => {

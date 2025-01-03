@@ -6,8 +6,8 @@ module.exports = app => {
     // Consultar todos os filmes
     router.get("/", peca.getAllPecas);
     router.get("/unity/", peca.getAllPecasCategoriaUnity);
+    router.get("/genero/:id", peca.getAllPecasByGeneroId);
     router.get("/categoria/:id", peca.getAllPecasByCategoriaId);
-    router.get("/genero/:id", peca.getAllPecasByCategoriaId);
     router.get("/sales/", peca.getAllPecasComDesconto);
     router.get("/marca/:id", peca.getAllPecasByMarcaId);
     router.get('/:id', peca.getById);

@@ -55,6 +55,8 @@ require('./app/routes/marca.routes.js')(app);
 require('./app/routes/tamanho.routes.js')(app);
 require('./app/routes/media.routes.js')(app);
 require('./app/routes/user.routes.js')(app);
+require('./app/routes/fotos.routes.js')(app);
+require('./app/routes/pecas_fotos.routes.js')(app);
 
 // ativação do servidor, onde serão recebidos os pedidos, na porta definida
 app.listen(PORT, () => {
