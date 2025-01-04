@@ -93,13 +93,20 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
     p.nome AS nome,
     p.descricao AS descricao,
     p.tridimensional,
+    p.imagemTextura,
     c.descricao AS cor,
     m.nome AS marca,
     cat.descricao AS categoria,
     g.descricao AS genero,
     p.preco,
     p.taxa_iva,
-    p.taxa_desconto
+    p.taxa_desconto,
+
+      (SELECT GROUP_CONCAT(CONCAT(t.descricao, ': ', s.quantidade) SEPARATOR ',') 
+     FROM stock s 
+     LEFT JOIN tamanho t ON s.id_tamanho = t.id 
+     WHERE s.id_peca = p.id) AS stock
+
     FROM 
     peca p
     LEFT JOIN cor c ON p.id_cor = c.id
