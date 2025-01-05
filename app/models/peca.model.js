@@ -118,13 +118,14 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
         SELECT id 
         FROM categoria 
         WHERE descricao LIKE ?
-    );
+    )
+    AND
+    p.tridimensional = 1;
   `;
 
   // Passando o parâmetro corretamente
-  const params = [`%${categoria}%`];
+  const params = [`${categoria}`];
 
-  console.log("Query a ser executada:", query);
   console.log("Parâmetros:", params);
 
   sql.query(query, params, (err, res) => {
@@ -133,7 +134,7 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
       result(null, err);
       return;
     }
-
+    console.log("Peca: ", res);
     result(null, res);
   });
 };
