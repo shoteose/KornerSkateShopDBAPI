@@ -33,19 +33,16 @@ app.use(cors(corsOptions));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// tratamento (parse) de pedidos de content-type - application/json
-app.use(express.json());
-
-// tratamento (parse) de pedidos de content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
-// Configura o Express para usar o middleware de análise de dados URL-encoded. Particularmente útil para o tratamento de formulários HTML que enviam dados através de pedidos POST ou PUT transformando-os num objeto acessível através de req.body. O uso de { extended: true } garante que a análise de dados possa lidar com arrays e objetos no formato URL-encoded. 
+// Configura o Express para tratar payloads maiores
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ extended: true, limit: '50mb' }));
 
 // route de "entrada" - apenas para efeito de teste
 app.get("/", (req, res) => {
   res.json({ message: "Korner Skate Shop API" });
 });
 
-// importação das movie.routes com um argumento de inicialização
+// Importação das rotas da aplicação
 require('./app/routes/peca.routes.js')(app);
 require('./app/routes/categoria.routes.js')(app);
 require('./app/routes/cor.routes.js')(app);
@@ -58,7 +55,7 @@ require('./app/routes/user.routes.js')(app);
 require('./app/routes/fotos.routes.js')(app);
 require('./app/routes/pecas_fotos.routes.js')(app);
 
-// ativação do servidor, onde serão recebidos os pedidos, na porta definida
+// Ativação do servidor
 app.listen(PORT, () => {
   console.log(`Servidor ativo na porta ${PORT}.`);
 });

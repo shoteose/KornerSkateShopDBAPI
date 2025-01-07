@@ -22,6 +22,7 @@ exports.insert = (req, res) => {
   } else {
     // Criar uma "Peca"
     if (req.body.imagemTextura != null) {
+      console.log("recebi imagem");
       $imagemBinaria = Buffer.from(req.body.imagemTextura, 'base64');
     } else {
       $imagemBinaria = null;
