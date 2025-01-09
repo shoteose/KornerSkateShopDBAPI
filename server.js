@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const swaggerJSDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-
 const app = express();
 const PORT = process.env.PORT || 3000;
 const corsOptions = {
@@ -33,9 +32,8 @@ app.use(cors(corsOptions));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Configura o Express para tratar payloads maiores
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ extended: true, limit: '50mb' }));
+app.use(express.json({ limit: '256Mb' }));
+app.use(express.urlencoded({ extended: true, limit: '256Mb' }));
 
 // route de "entrada" - apenas para efeito de teste
 app.get("/", (req, res) => {

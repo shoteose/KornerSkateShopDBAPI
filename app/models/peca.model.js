@@ -78,7 +78,7 @@ GROUP BY
       return;
     }
 
-    console.log("pecas: ", res);
+    //console.log("pecas: ", res);
     result(null, res);
   });
 };
@@ -330,7 +330,6 @@ GROUP BY
     p.id_categoria, 
     p.id_genero, 
     p.tridimensional, 
-    p.imagemTextura, 
     c.descricao, 
     m.nome, 
     cat.descricao, 
@@ -387,7 +386,6 @@ GROUP BY
     p.id_categoria, 
     p.id_genero, 
     p.tridimensional, 
-    p.imagemTextura, 
     c.descricao, 
     m.nome, 
     cat.descricao, 
@@ -445,7 +443,6 @@ GROUP BY
     p.id_categoria, 
     p.id_genero, 
     p.tridimensional, 
-    p.imagemTextura, 
     c.descricao, 
     m.nome, 
     cat.descricao, 

@@ -1,15 +1,64 @@
 const Peca = require("../models/peca.model.js");
+const zlib = require('zlib');
+
+function compressorImagem(data) {
+  const buffer = Buffer.from(data, 'base64');
+  const comprimido = zlib.deflateSync(buffer, { level: 9 });
+
+  console.log(data.length);
+  console.log("_________________");
+  console.log(comprimido.length);
+  // ver se é menor que 40mb
+  if (comprimido.length > 40 * 1024 * 1024) {
+    throw new Error('O tamanho do arquivo comprimido excede 40 MB.');
+  }
+
+  return comprimido; // Retorna o binário comprimido
+}
+
+function decompressorImagem(dadosComprimidos) {
+  return zlib.inflateSync(dadosComprimidos);
+}
+
 
 exports.getAllPecas = (req, res) => {
   const title = req.query.nome;
 
+  //req.body.$imagemBinaria = decompressorImagem(req.body.$imagemBinaria);
+  /*
+    if (req.body.$imagemBinaria != null) {
+      try {
+        req.body.$imagemBinaria = decompressorImagem(req.body.$imagemBinaria);
+      } catch (error) {
+        console.error("Erro ao descomprimir a imagem:", error.message);
+        return res.status(400).send({
+          message: "Erro ao descomprimir os dados da imagem.",
+        });
+      }
+    }
+  */
+
   Peca.getAllPecas(title, (err, data) => {
-    if (err)
+    if (err) {
       res.status(500).send({
-        message:
-          err.message || "Ocorreu um erro na obtenção da(s) Pecas(s)..."
+        message: err.message || "Ocorreu um erro na obtenção da(s) Pecas(s)...",
       });
-    else res.send(data);
+    } else {
+
+      // descomprimir cada imagem de Textura
+      data.forEach((peca) => {
+        if (peca.imagemTextura != null) {
+          try {
+            // Descomprimir a imagem
+            peca.imagemTextura = decompressorImagem(peca.imagemTextura);
+          } catch (error) {
+            console.error(error.message);
+          }
+        }
+      });
+
+      res.send(data);
+    }
   });
 };
 
@@ -23,7 +72,7 @@ exports.insert = (req, res) => {
     // Criar uma "Peca"
     if (req.body.imagemTextura != null) {
       console.log("recebi imagem");
-      $imagemBinaria = Buffer.from(req.body.imagemTextura, 'base64');
+      $imagemBinaria = compressorImagem(req.body.imagemTextura);
     } else {
       $imagemBinaria = null;
     }
@@ -49,7 +98,9 @@ exports.insert = (req, res) => {
           message:
             err.message || "Ocorreu um erro ao inserir a Peca..."
         });
-      else res.send(data);
+      else {
+        res.send(data);
+      }
     });
   }
 };
@@ -66,7 +117,7 @@ exports.update = (req, res) => {
   let peca = new Peca(req.body);
 
   if (peca.imagemTextura != null) {
-    peca.imagemTextura = Buffer.from(req.body.imagemTextura, 'base64');
+    peca.imagemTextura = compressorImagem(req.body.imagemTextura);
   } else {
     peca.imagemTextura = null;
   }
@@ -90,11 +141,12 @@ exports.update = (req, res) => {
             message: `Foi gerado um erro a atualizar a Peca com id = ${req.params.id}.`
           });
         }
-      } else res.send(data);
+      } else {
+        res.send(data);
+      }
     }
   );
 };
-
 
 // Apagar uma Peca pelo seu id
 exports.delete = (req, res) => {
@@ -113,17 +165,30 @@ exports.delete = (req, res) => {
   });
 };
 
-
 exports.getAllPecasCategoriaUnity = (req, res) => {
   const categoria = req.query.categoria;
 
   Peca.getAllPecasCategoriaUnity(categoria, (err, data) => {
-    if (err)
+    if (err) {
       res.status(500).send({
-        message:
-          err.message || "Ocorreu um erro na obtenção da(s) Pecas(s)..."
+        message: err.message || "Ocorreu um erro na obtenção da(s) Pecas(s)...",
       });
-    else res.send(data);
+    } else {
+
+      // descomprimir cada imagem de Textura
+      data.forEach((peca) => {
+        if (peca.imagemTextura != null) {
+          try {
+            // Descomprimir a imagem
+            peca.imagemTextura = decompressorImagem(peca.imagemTextura);
+          } catch (error) {
+            console.error(error.message);
+          }
+        }
+      });
+
+      res.send(data);
+    }
   });
 };
 
@@ -139,7 +204,6 @@ exports.getAllPecasByCategoriaId = (req, res) => {
     } else {
       res.send(data);
     }
-
   });
 
 };
@@ -205,6 +269,18 @@ exports.getById = (req, res) => {
         message: err.message || "Ocorreu um erro na obtenção da Peca...",
       });
     } else {
+      // descomprimir cada imagem de Textura
+      data.forEach((peca) => {
+        if (peca.imagemTextura != null) {
+          try {
+            // Descomprimir a imagem
+            peca.imagemTextura = decompressorImagem(peca.imagemTextura);
+          } catch (error) {
+            console.error(error.message);
+          }
+        }
+      });
+
       res.send(data);
     }
   });

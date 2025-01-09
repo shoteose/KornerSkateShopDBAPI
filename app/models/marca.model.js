@@ -16,7 +16,7 @@ Marca.getAll = (result) => {
       return;
     }
 
-    console.log("Marcas: ", res);
+    //console.log("Marcas: ", res);
     result(null, res);
   });
 };

@@ -16,7 +16,7 @@ Categoria.getAll = (result) => {
       return;
     }
 
-    console.log("Categorias: ", res);
+    //console.log("Categorias: ", res);
     result(null, res);
   });
 };

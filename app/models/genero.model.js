@@ -17,7 +17,7 @@ Genero.getAll = (result) => {
       return;
     }
 
-    console.log("Generos: ", res);
+    //console.log("Generos: ", res);
     result(null, res);
   });
 };
