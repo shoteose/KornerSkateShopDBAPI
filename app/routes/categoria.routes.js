@@ -70,10 +70,10 @@ module.exports = app => {
      *         required: true
      *         schema:
      *           type: integer
-     *         description: ID da categoria a ser removida
+     *         description: ID da categoria a ser eliminada
      *     responses:
      *       200:
-     *         description: Categoria removida com sucesso
+     *         description: Categoria eliminada com sucesso
      */
     router.delete("/:id", categoria.delete);
 
