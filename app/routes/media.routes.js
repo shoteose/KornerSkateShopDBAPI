@@ -70,7 +70,7 @@ module.exports = app => {
      * @swagger
      * /api/media/{id}:
      *   delete:
-     *     summary: Remove um media pelo ID
+     *     summary: Remove uma media pelo ID
      *     tags: [Media]
      *     parameters:
      *       - in: path

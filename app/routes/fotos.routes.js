@@ -70,10 +70,10 @@ module.exports = app => {
      *         required: true
      *         schema:
      *           type: integer
-     *         description: ID da foto a ser removida
+     *         description: ID da foto a ser eliminada
      *     responses:
      *       200:
-     *         description: Foto removida com sucesso
+     *         description: Foto eliminada com sucesso
      */
     router.delete("/:id", fotos.delete);
 
