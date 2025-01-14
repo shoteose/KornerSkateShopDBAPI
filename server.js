@@ -35,11 +35,6 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(express.json({ limit: '256Mb' }));
 app.use(express.urlencoded({ extended: true, limit: '256Mb' }));
 
-// route de "entrada" - apenas para efeito de teste
-app.get("/", (req, res) => {
-  res.json({ message: "Korner Skate Shop API" });
-});
-
 // Importação das rotas da aplicação
 require('./app/routes/peca.routes.js')(app);
 require('./app/routes/categoria.routes.js')(app);
