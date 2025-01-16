@@ -73,20 +73,20 @@ GROUP BY
 
   sql.query(query, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      //console.log("error: ", err);
       result(null, err);
       return;
     }
 
-    //console.log("pecas: ", res);
+    ////console.log("pecas: ", res);
     result(null, res);
   });
 };
 
 Peca.getAllPecasCategoriaUnity = (categoria, result) => {
-  console.log("teste tes");
-  console.log("Model foi chamado.");
-  console.log("Categoria recebida no model:", categoria);
+  //console.log("teste tes");
+  //console.log("Model foi chamado.");
+  //console.log("Categoria recebida no model:", categoria);
 
   let query = `SELECT 
     p.id AS id,
@@ -126,15 +126,15 @@ Peca.getAllPecasCategoriaUnity = (categoria, result) => {
   // Passando o parâmetro corretamente
   const params = [`${categoria}`];
 
-  console.log("Parâmetros:", params);
+  //console.log("Parâmetros:", params);
 
   sql.query(query, params, (err, res) => {
     if (err) {
-      console.log("Erro ao executar query: ", err);
+      //console.log("Erro ao executar query: ", err);
       result(null, err);
       return;
     }
-    console.log("Peca: ", res);
+    //console.log("Peca: ", res);
     result(null, res);
   });
 };
@@ -184,12 +184,12 @@ GROUP BY
 
   sql.query(query, id, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      //console.log("error: ", err);
       result(null, err);
       return;
     }
 
-    console.log("Peca: ", res);
+    //console.log("Peca: ", res);
     result(null, res);
   });
 };
@@ -227,7 +227,7 @@ LEFT JOIN fotos f ON pf.id_foto = f.id
 
   sql.query(query, [`%${categoria}%`], (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      //console.log("error: ", err);
       result(null, err);
       return;
     }
@@ -284,7 +284,7 @@ GROUP BY
 
   sql.query(query, [$id], (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      //console.log("error: ", err);
       result(null, err);
       return;
     }
@@ -341,7 +341,7 @@ GROUP BY
 
   sql.query(query, $id, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      //console.log("error: ", err);
       result(null, err);
       return;
     }
@@ -397,7 +397,7 @@ GROUP BY
 
   sql.query(query, [$id], (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      //console.log("error: ", err);
       result(null, err);
       return;
     }
@@ -454,7 +454,7 @@ GROUP BY
 
   sql.query(query, [$id], (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      //console.log("error: ", err);
       result(null, err);
       return;
     }
@@ -466,12 +466,12 @@ GROUP BY
 Peca.insert = (newPeca, result) => {
   sql.query('INSERT INTO peca SET ?', newPeca, (err, res) => {
     if (err) {
-      console.log('error: ', err);
+      //console.log('error: ', err);
       result(err, null);
       return;
     }
 
-    console.log("Peca inserido: ", { id: res.insertId, ...newPeca });
+    //console.log("Peca inserido: ", { id: res.insertId, ...newPeca });
     result(null, { id: res.insertId, ...newPeca });
   });
 };
@@ -479,7 +479,7 @@ Peca.insert = (newPeca, result) => {
 Peca.delete = (id, result) => {
   sql.query('DELETE FROM peca WHERE id = ?', id, (err, res) => {
     if (err) {
-      console.log('error: ', err);
+      //console.log('error: ', err);
       result(null, err);
       return;
     }
@@ -490,7 +490,7 @@ Peca.delete = (id, result) => {
       return;
     }
 
-    console.log("Peca eliminada com o id: ", id);
+    //console.log("Peca eliminada com o id: ", id);
     result(null, res);
   });
 };
@@ -501,7 +501,7 @@ Peca.updateById = (id, Peca, result) => {
     [Peca, id],
     (err, res) => {
       if (err) {
-        console.log('error: ', err);
+        //console.log('error: ', err);
         result(null, err);
         return;
       }
@@ -512,7 +512,7 @@ Peca.updateById = (id, Peca, result) => {
         return;
       }
 
-      console.log('Peca atualizada: ', { id: id, ...Peca });
+      //console.log('Peca atualizada: ', { id: id, ...Peca });
       result(null, { id: id, ...Peca });
     }
   );

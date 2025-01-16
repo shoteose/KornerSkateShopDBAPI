@@ -12,13 +12,9 @@ Pecas_Fotos.getAll = (result) => {
   SELECT
   pecas_fotos.id AS id,
   pecas_fotos.id_peca AS id_peca,
-  pecas_fotos.id_tamanho AS id_tamanho,
-  pecas_fotos.quantidade AS quantidade,
-  p.nome AS peca,
-  t.descricao AS tamanho
+  pecas_fotos.id_foto AS id_foto
   FROM pecas_fotos
   LEFT JOIN peca p ON pecas_fotos.id_peca = p.id
-  LEFT JOIN tamanho t ON pecas_fotos.id_tamanho = t.id
   ORDER BY pecas_fotos.id_peca ASC
   `;
 
@@ -29,7 +25,7 @@ Pecas_Fotos.getAll = (result) => {
             return;
         }
 
-        console.log("Pecas_Fotoses: ", res);
+        //console.log("Pecas_Fotoses: ", res);
         result(null, res);
     });
 };
@@ -45,13 +41,13 @@ Pecas_Fotos.getById = (id, result) => {
             return;
         }
 
-        console.log("Pecas_Fotos: ", res);
+        //console.log("Pecas_Fotos: ", res);
         result(null, res);
     });
 };
 
 Pecas_Fotos.insert = (newPecas_Fotos, result) => {
-    console.log("Preparando para inserir nova pecas_fotos:", newPecas_Fotos);
+    console.log("Inserção de nova pecas_fotos:", newPecas_Fotos);
 
     sql.query('INSERT INTO pecas_fotos SET ?', newPecas_Fotos, (err, res) => {
         if (err) {
@@ -60,7 +56,7 @@ Pecas_Fotos.insert = (newPecas_Fotos, result) => {
             return;
         }
 
-        console.log("Pecas_Fotos inserida com sucesso no banco de dados:", { id: res.insertId, ...newPecas_Fotos });
+        //console.log("Pecas_Fotos inserida com sucesso: ", { id: res.insertId, ...newPecas_Fotos });
         result(null, { id: res.insertId, ...newPecas_Fotos });
     });
 };
@@ -83,7 +79,7 @@ Pecas_Fotos.updateById = (id, Pecas_Fotos, result) => {
                 return;
             }
 
-            console.log('Pecas_Fotos atualizada: ', { id: id, ...Pecas_Fotos });
+            //console.log('Pecas_Fotos atualizada: ', { id: id, ...Pecas_Fotos });
             result(null, { id: id, ...Pecas_Fotos });
         }
     );
@@ -98,7 +94,6 @@ Pecas_Fotos.delete = (id, result) => {
         }
 
         if (res.affectedRows == 0) {
-            // not found Pecas_Fotos with the id
             result({ Pecas_Fotos: "not_found" }, null);
             return;
         }

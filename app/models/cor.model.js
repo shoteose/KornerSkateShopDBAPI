@@ -11,12 +11,12 @@ Cor.getAll = (result) => {
 
   sql.query(query, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      //console.log("error: ", err);
       result(null, err);
       return;
     }
 
-    console.log("Cores: ", res);
+    //console.log("Cores: ", res);
     result(null, res);
   });
 };
@@ -27,27 +27,27 @@ Cor.getById = (id, result) => {
 
   sql.query(query, id, (err, res) => {
     if (err) {
-      console.log("error: ", err);
+      //console.log("error: ", err);
       result(null, err);
       return;
     }
 
-    console.log("Cor: ", res);
+    //console.log("Cor: ", res);
     result(null, res);
   });
 };
 
 Cor.insert = (newCor, result) => {
-  console.log("Preparando para inserir nova cor:", newCor);
+  //console.log("Preparando para inserir nova cor:", newCor);
 
   sql.query("INSERT INTO cor (descricao) VALUES (?)", newCor.descricao, (err, res) => {
     if (err) {
-      console.error("error:", err);
+      //console.error("error:", err);
       result(err, null);
       return;
     }
 
-    console.log("Cor inserida com sucesso no banco de dados:", { id: res.insertId, ...newCor });
+    //console.log("Cor inserida com sucesso no banco de dados:", { id: res.insertId, ...newCor });
     result(null, { id: res.insertId, ...newCor });
   });
 };
@@ -59,7 +59,7 @@ Cor.insert = (newCor, result) => {
       [Cor.descricao, id],
       (err, res) => {
         if (err) {
-          console.log('error: ', err);
+          //console.log('error: ', err);
           result(null, err);
           return;
         }
@@ -70,7 +70,7 @@ Cor.insert = (newCor, result) => {
           return;
         }
   
-        console.log('Cor atualizada: ', { id: id, ...Cor });
+        //console.log('Cor atualizada: ', { id: id, ...Cor });
         result(null, { id: id, ...Cor });
       }
     );
@@ -79,7 +79,7 @@ Cor.insert = (newCor, result) => {
   Cor.delete = (id, result) => {
     sql.query('DELETE FROM cor WHERE id = ?', id, (err, res) => {
       if (err) {
-        console.log('error: ', err);
+        //console.log('error: ', err);
         result(null, err);
         return;
       }
@@ -90,7 +90,7 @@ Cor.insert = (newCor, result) => {
         return;
       }
   
-      console.log("Cor eliminada com o id: ", id);
+      //console.log("Cor eliminada com o id: ", id);
       result(null, res);
     });
   };

@@ -14,13 +14,13 @@ connection.connect(error => {
   if (error) throw error;
   console.log('Ligação à base de dados estabelecida...');
 
-  const query = 'SET GLOBAL max_allowed_packet = 268435456';
+  const query = 'SET GLOBAL max_allowed_packet = 524288000';
   connection.query(query, (err, res) => {
     if (err) {
       console.error('Erro ao ajustar max_allowed_packet:', err.message);
       return;
     }
-    console.log('max_allowed_packet ajustado para 256 MB');
+    console.log('max_allowed_packet ajustado para 500 MB');
   });
 
 });
