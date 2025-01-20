@@ -32,8 +32,8 @@ app.use(cors(corsOptions));
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use(express.json({ limit: '256Mb' }));
-app.use(express.urlencoded({ extended: true, limit: '256Mb' }));
+app.use(express.json({ limit: '500Mb' }));
+app.use(express.urlencoded({ extended: true, limit: '500Mb' }));
 
 // Importação das rotas da aplicação
 require('./app/routes/peca.routes.js')(app);
